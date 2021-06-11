@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AssetResource extends JsonResource
+class CustomerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,15 +17,8 @@ class AssetResource extends JsonResource
         // return parent::toArray($request);
         return [
             'id' => $this->id,
-            'asset_id' => $this->id,
-            'reg' => $this->reg,
-            'belongs_to' => $this->belongs_to,
-            'model' => $this->model,
-            'make' => $this->make,
-            'created_by' => $this->created_by,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at
-
+            'customer_id' => $this->id,
+            'customer_name' => $this->customer_name,
         ];
     }
 }

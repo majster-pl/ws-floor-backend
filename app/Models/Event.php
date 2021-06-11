@@ -24,6 +24,10 @@ class Event extends Model
         'allowed_time',
     ];
 
+    protected $casts = [
+        'allowed_time' => 'float',
+    ];
+
 
     public function asset()
     {

@@ -26,7 +26,7 @@ class CreateEventsTable extends Migration
             $table->dateTime('picked_up_at')->nullable();
             $table->date('booked_date');
             $table->dateTime('booked_date_time');
-            $table->integer('allowed_time');
+            $table->float('allowed_time', 8, 2);
             $table->unsignedBigInteger('created_by');
             $table->char('status', 20);
             $table->timestamps();

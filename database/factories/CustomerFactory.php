@@ -25,7 +25,7 @@ class CustomerFactory extends Factory
     {
         return [
             'uuid' => Str::uuid()->toString(),
-            'name' => $this->faker->company(),
+            'customer_name' => $this->faker->company(),
             'created_by' => User::inRandomOrder()->first()->id,
         ];
     }

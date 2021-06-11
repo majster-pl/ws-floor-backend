@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\v1\AssetController;
+use App\Http\Controllers\api\v1\CustomerController;
 use App\Http\Controllers\api\v1\EventController;
 use App\Models\Asset;
 use App\Models\Event;
@@ -33,6 +34,7 @@ Route::middleware('auth:sanctum')->group( function () {
     // Route::get('/events2', [EventController::class, 'index']);
     Route::apiResource('events', EventController::class);
     Route::apiResource('assets', AssetController::class);
+    Route::apiResource('customer', CustomerController::class);
     
 
     // Route::get('/assets', function () {
