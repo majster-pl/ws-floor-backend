@@ -1,13 +1,14 @@
 <?php
 
-use App\Http\Controllers\api\v1\AssetController;
-use App\Http\Controllers\api\v1\CustomerController;
-use App\Http\Controllers\api\v1\EventController;
 use App\Models\Asset;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\api\v1\AssetController;
+use App\Http\Controllers\api\v1\EventController;
+use App\Http\Controllers\api\v1\CustomerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('auth:sanctum')->group( function () {
+Route::middleware('auth:sanctum')->group(function () {
     // Route::get('/events', function () {
     //     // return response()->json([Event::all()
     //     // ], Response::HTTP_OK);
@@ -35,7 +36,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::apiResource('events', EventController::class);
     Route::apiResource('assets', AssetController::class);
     Route::apiResource('customer', CustomerController::class);
-    
+
 
     // Route::get('/assets', function () {
     //     // return response()->json([Event::all()
@@ -47,11 +48,15 @@ Route::middleware('auth:sanctum')->group( function () {
     //     // ], Response::HTTP_OK);
     //     return Asset::all();
     // });
-    
+
     Route::get('/logged-in', function () {
-        return response()->json([
-            'logged-in' => 'true',
-        ], Response::HTTP_OK);
+        return Auth::user();
+        // return response()->json([
+        //     'logged-in' => 'true', $res
+        // ], Response::HTTP_OK);
     });
-    
+
+    Route::fallback(function () {
+        return response()->json(['error' => 'Not Found!'], Response::HTTP_NOT_FOUND);
+    });
 });
