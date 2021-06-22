@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\api\v1\AssetController;
 use App\Http\Controllers\api\v1\EventController;
+use App\Http\Controllers\api\v1\StatsController;
 use App\Http\Controllers\api\v1\CustomerController;
 
 /*
@@ -36,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('events', EventController::class);
     Route::apiResource('assets', AssetController::class);
     Route::apiResource('customer', CustomerController::class);
+    Route::apiResource('stats', StatsController::class);
 
 
     // Route::get('/assets', function () {
