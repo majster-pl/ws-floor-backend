@@ -18,6 +18,8 @@ class CreateCustomersTable extends Migration
             $table->string('customer_name')->unique();
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('created_by');
+            $table->mediumText('customer_contact')->nullable();
+            $table->string('status');
             $table->timestamps();
 
             $table->foreign('created_by')->references('id')->on('users');

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Asset;
+use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -27,6 +28,7 @@ class AssetFactory extends Factory
             'make' => $this->faker->word(),
             'model' => $this->faker->word(),
             'created_by' => User::inRandomOrder()->first()->id,
+            'belongs_to' => Customer::inRandomOrder()->first()->id,
         ];
     }
 }

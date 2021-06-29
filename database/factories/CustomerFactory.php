@@ -27,6 +27,8 @@ class CustomerFactory extends Factory
             'uuid' => Str::uuid()->toString(),
             'customer_name' => $this->faker->company(),
             'created_by' => User::inRandomOrder()->first()->id,
+            'customer_contact' => $this->faker->tollFreePhoneNumber(),
+            'status' => $this->faker->randomElement(['active', 'on_hold']),
         ];
     }
 }
