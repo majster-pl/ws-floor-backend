@@ -22,6 +22,7 @@ class CustomerResource extends JsonResource
             'uuid' => $this->uuid,
             'customer_name' => $this->customer_name,
             'customer_contact' => $this->customer_contact,
+            'created_at' => $this->created_at,
             'assets_total' => Asset::where('belongs_to', '=', $this->id)->count(),
             'status' => $this->status,
         ];

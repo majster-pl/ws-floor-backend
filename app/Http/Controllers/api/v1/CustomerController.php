@@ -50,8 +50,8 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $asset = Customer::find($id);
-        return new CustomerResource($asset);
+        $customer = Customer::find($id);
+        return new CustomerResource($customer);
     }
 
     /**
