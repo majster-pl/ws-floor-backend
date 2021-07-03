@@ -7,6 +7,9 @@ use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+
 
 class CustomerController extends Controller
 {
@@ -17,7 +20,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::all()->sortBy('customer_name');
         return new CustomerCollection($customers);
     }
 
@@ -39,7 +42,24 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $data['status'] = "active";
+        $data['uuid'] =
+            Str::uuid()->toString();
+        $data['created_by'] = Auth::id();
+        $new = Customer::create($data);
+
+        // $customer = Customer::create();
+        // $customer->$request->all();
+        // $customer->status = "active";
+        // $customer = $request->all();
+        // // $customer->uuid = Str::uuid()->toString();
+        // // $customer->status = "active";
+
+        // $newCustomer = $customer->save();
+
+        return $new;
+        // return response(Auth::id());
     }
 
     /**
@@ -74,7 +94,9 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $customer = Customer::find($id);
+
+        $customer->update($request->all());
     }
 
     /**
