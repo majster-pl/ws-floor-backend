@@ -25,7 +25,7 @@ class EventFactory extends Factory
      */
     public function definition()
     {
-        $date = $this->faker->dateTimeBetween('now', '+31 days');
+        $date = $this->faker->dateTimeBetween('now -10 days', '+31 days');
         return [
             'uuid' => Str::uuid()->toString(),
             'description' => $this->faker->paragraph(1, true),

@@ -14,6 +14,8 @@ class EventCollection extends ResourceCollection
      */
     public function toArray($request)
     {
+        // return parent::toArray($request);
+
         if ($request->days === null) {
             return parent::toArray(['message' => 'unsupported request, please check documentation']);
         }
@@ -24,7 +26,7 @@ class EventCollection extends ResourceCollection
             $collectionByDate = $this->mapToGroups(fn ($item) => [$item['booked_date'] => $item]);
 
             #create array with range of days from 0 to numebro of days minus 1
-            $numberOfDays = range(0,$request->days-1);
+            $numberOfDays = range(0, $request->days - 1);
             $startDate = $request->from;
 
             // get longest number of events in a day to generate right amount of rows for table
@@ -39,9 +41,9 @@ class EventCollection extends ResourceCollection
             // create array with date from starting date to last day calculated by provided number of days
             $days = array();
             foreach ($numberOfDays as $value) {
-                array_push($days, date('Y-m-d', strtotime($startDate. ' + '.$value.' days')) );
+                array_push($days, date('Y-m-d', strtotime($startDate . ' + ' . $value . ' days')));
             }
-            
+
             // below funcion takes collectionByDate object and generate data in grid format
             $a = 0;
             $gridMap = array();

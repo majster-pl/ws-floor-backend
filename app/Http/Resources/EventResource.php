@@ -38,5 +38,4 @@ class EventResource extends JsonResource
             'valid_as_of' => date('D, d M Y H:i:s'),
         ];
     }
-
 }

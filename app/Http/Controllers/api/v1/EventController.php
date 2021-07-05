@@ -44,6 +44,9 @@ class EventController extends Controller
         }
 
         $to = date('Y-m-d', strtotime(date($from) . ' + ' . $request->days . ' days'));
+        // $events = Event::withTrashed()->whereBetween('booked_date', [$from, $to])
+        //     ->orderBy('events.booked_date_time')
+        //     ->get();
         $events = Event::whereBetween('booked_date', [$from, $to])
             ->orderBy('events.booked_date_time')
             ->get();

@@ -21,9 +21,9 @@ class CreateAssetsTable extends Migration
             $table->unsignedBigInteger('belongs_to')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('created_by')->references('id')->on('users');
-
         });
     }
 

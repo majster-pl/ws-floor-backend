@@ -27,15 +27,6 @@ class StatsCollection extends ResourceCollection
         $numberOfDays = range(0, $request->days - 1);
         $startDate = $request->from;
 
-        // get longest number of events in a day to generate right amount of rows for table
-        // and generate array with dates to map through.
-        // $longestArray = 0;
-        // foreach ($collectionByDate as $value) {
-        //     if (count($value) > $longestArray) {
-        //         $longestArray = count($value);
-        //     }
-        // }
-
         // create array with date from starting date to last day calculated by provided number of days
         $days = array();
         foreach ($numberOfDays as $value) {

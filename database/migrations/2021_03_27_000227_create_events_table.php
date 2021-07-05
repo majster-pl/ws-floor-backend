@@ -30,7 +30,8 @@ class CreateEventsTable extends Migration
             $table->unsignedBigInteger('created_by');
             $table->char('status', 20);
             $table->timestamps();
-            
+            $table->softDeletes();
+
 
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('asset_id')->references('id')->on('assets');

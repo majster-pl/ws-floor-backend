@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CustomerCollection;
 use App\Http\Resources\CustomerResource;
 use App\Models\Customer;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +21,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all()->sortBy('customer_name');
+        $customers = Customer::all()->sortBy('customer_name', SORT_NATURAL | SORT_FLAG_CASE);
         return new CustomerCollection($customers);
     }
 
@@ -105,8 +106,12 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        // both below perform soft-delete
+        $customer = Customer::find($id)->delete();
+        $events = Event::where("customer_id", $id)->delete();
+
+        return $customer;
     }
 }
