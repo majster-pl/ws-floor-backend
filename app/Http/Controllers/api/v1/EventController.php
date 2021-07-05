@@ -64,8 +64,8 @@ class EventController extends Controller
     {
         //
         $event = new Event;
-        $event->asset_id = 1;
-        $event->customer_id = 1;
+        $event->asset_id = $request->asset_id;
+        $event->customer_id = $request->customer_id;
         $event->description = $request->description;
         $event->booked_date = $request->booked_date;
         $event->allowed_time = $request->allowed_time;
