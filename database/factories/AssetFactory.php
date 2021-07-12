@@ -6,6 +6,7 @@ use App\Models\Asset;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class AssetFactory extends Factory
 {
@@ -25,8 +26,10 @@ class AssetFactory extends Factory
     {
         return [
             'reg' => strtoupper($this->faker->bothify('??##???')),
+            'uuid' => Str::uuid()->toString(),
             'make' => $this->faker->word(),
             'model' => $this->faker->word(),
+            'status' => $this->faker->randomElement(['active', 'on_hold']),
             'created_by' => User::inRandomOrder()->first()->id,
             'belongs_to' => Customer::inRandomOrder()->first()->id,
         ];

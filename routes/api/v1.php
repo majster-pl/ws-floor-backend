@@ -36,7 +36,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::get('/events2', [EventController::class, 'index']);
     Route::apiResource('events', EventController::class);
     Route::apiResource('assets', AssetController::class);
-    Route::apiResource('customer', CustomerController::class);
+    Route::apiResource('customers', CustomerController::class);
     Route::apiResource('stats', StatsController::class);
 
 

@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\api\v1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\AssetCollection;
-use App\Http\Resources\AssetResource;
 use App\Models\Asset;
+use App\Models\Event;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\AssetResource;
+use App\Http\Resources\AssetCollection;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+
 
 class AssetController extends Controller
 {
@@ -17,8 +21,8 @@ class AssetController extends Controller
      */
     public function index()
     {
-        $asset = Asset::all();
-        return new AssetCollection($asset);
+        $assets = Asset::all();
+        return new AssetCollection($assets);
         // return $asset;
     }
 
@@ -40,7 +44,13 @@ class AssetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        $data['reg'] = strtoupper($request->reg);
+        $data['uuid'] = Str::uuid()->toString();
+        $data['created_by'] = Auth::id();
+        $new = Asset::create($data);
+
+        return $new;
     }
 
     /**
@@ -75,7 +85,9 @@ class AssetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $asset = Asset::find($id);
+
+        $asset->update($request->all());
     }
 
     /**
@@ -86,6 +98,9 @@ class AssetController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $asset = Asset::find($id)->delete();
+        Event::where("asset_id", $id)->delete();
+
+        return $asset;
     }
 }
