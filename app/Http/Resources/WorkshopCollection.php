@@ -31,28 +31,28 @@ class WorkshopCollection extends ResourceCollection
             'booked' => [
                 'id' => 'booked',
                 'title' => 'Due in Today',
-                'taskIds' => isset($tasksByStatus['booked']) ? $tasksByStatus['booked'] : null
+                'taskIds' => isset($tasksByStatus['booked']) ? $tasksByStatus['booked'] : []
             ],
             'awaiting_workshop' => [
                 'id' => 'awaiting_workshop',
                 'title' => 'Waiting Labour',
-                'taskIds' => isset($tasksByStatus['awaiting_workshop']) ? $tasksByStatus['awaiting_workshop'] : null
+                'taskIds' => isset($tasksByStatus['awaiting_workshop']) ? $tasksByStatus['awaiting_workshop'] : []
             ],
 
             'awaiting_estimates' => [
                 'id' => 'awaiting_estimates',
                 'title' => 'Awaiting Estimates',
-                'taskIds' => isset($tasksByStatus['awaiting_estimates']) ? $tasksByStatus['awaiting_estimates'] : null
+                'taskIds' => isset($tasksByStatus['awaiting_estimates']) ? $tasksByStatus['awaiting_estimates'] : []
             ],
             'awaiting_part' => [
                 'id' => 'awaiting_part',
                 'title' => 'Waiting Parts',
-                'taskIds' => isset($tasksByStatus['awaiting_part']) ? $tasksByStatus['awaiting_part'] : null
+                'taskIds' => isset($tasksByStatus['awaiting_part']) ? $tasksByStatus['awaiting_part'] : []
             ],
             'work_in_progress' => [
                 'id' => 'work_in_progress',
                 'title' => 'Work in progress',
-                'taskIds' => isset($tasksByStatus['work_in_progress']) ? $tasksByStatus['work_in_progress'] : null
+                'taskIds' => isset($tasksByStatus['work_in_progress']) ? $tasksByStatus['work_in_progress'] : []
             ],
 
 
