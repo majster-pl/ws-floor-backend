@@ -10,6 +10,7 @@ use App\Http\Controllers\api\v1\AssetController;
 use App\Http\Controllers\api\v1\EventController;
 use App\Http\Controllers\api\v1\StatsController;
 use App\Http\Controllers\api\v1\CustomerController;
+use App\Http\Controllers\api\v1\WorkshopController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,9 +35,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // });
 
     // Route::get('/events2', [EventController::class, 'index']);
-    Route::apiResource('events', EventController::class);
     Route::apiResource('assets', AssetController::class);
     Route::apiResource('customers', CustomerController::class);
+    Route::apiResource('events', EventController::class);
+    Route::apiResource('workshop', WorkshopController::class);
     Route::apiResource('stats', StatsController::class);
 
 

@@ -2,17 +2,16 @@
 
 namespace App\Http\Controllers\api\v1;
 
-use App\Models\Asset;
+use DateTime;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AssetResource;
-use App\Http\Resources\AssetCollection;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Date;
+use App\Http\Resources\WorkshopResource;
+use App\Http\Resources\WorkshopCollection;
+use Symfony\Component\VarDumper\Cloner\Data;
 
-
-class AssetController extends Controller
+class WorkshopController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,9 +20,26 @@ class AssetController extends Controller
      */
     public function index()
     {
-        $assets = Asset::all()->sortBy('reg');
-        return new AssetCollection($assets);
-        // return $asset;
+        //
+        $today_date = new DateTime();
+        $today_date = $today_date->format('Y-m-d');
+
+        // return $today_date;
+        $events = Event::where('booked_date', [$today_date])
+            ->where('status', 'booked')
+            ->orderBy('events.booked_date_time');
+        // ->get();
+        // $events = Event::all();
+        $others = Event::where('status', '!=', 'booked')
+            ->orderBy('events.status')
+            ->union($events)
+            ->get();
+
+        // $marged = $events->merge($others);
+        // $results = $marged->get();
+
+        // return new WorkshopResource($events);
+        return new WorkshopCollection($others);
     }
 
     /**
@@ -44,13 +60,7 @@ class AssetController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        $data['reg'] = strtoupper($request->reg);
-        $data['uuid'] = Str::uuid()->toString();
-        $data['created_by'] = Auth::id();
-        $new = Asset::create($data);
-
-        return $new;
+        //
     }
 
     /**
@@ -61,8 +71,7 @@ class AssetController extends Controller
      */
     public function show($id)
     {
-        $asset = Asset::find($id);
-        return new AssetResource($asset);
+        //
     }
 
     /**
@@ -85,10 +94,7 @@ class AssetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $asset = Asset::find($id);
-        // $data = $request->all();
-
-        $asset->update($request->all());
+        //
     }
 
     /**
@@ -99,9 +105,6 @@ class AssetController extends Controller
      */
     public function destroy($id)
     {
-        $asset = Asset::find($id)->delete();
-        Event::where("asset_id", $id)->delete();
-
-        return $asset;
+        //
     }
 }
