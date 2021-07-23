@@ -17,8 +17,8 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('asset_id');
+            $table->unsignedBigInteger('order')->nullable();
             $table->unsignedBigInteger('customer_id');
-            // $table->unsignedBigInteger('job_type_id')->index();
             $table->boolean('waiting')->nullable()->default(false);
             $table->mediumText('others')->nullable();
             $table->mediumText('description');

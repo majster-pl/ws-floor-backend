@@ -62,18 +62,21 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
         $event = new Event;
         $event->asset_id = $request->asset_id;
         $event->customer_id = $request->customer_id;
         $event->description = $request->description;
         $event->booked_date = $request->booked_date;
         $event->allowed_time = $request->allowed_time;
-        $event->uuid = Str::uuid()->toString();
         $event->booked_date_time = $request->booked_date;
-        $event->created_by = auth()->user()->id;
         $event->status = $request->status;
         $event->others = $request->others;
+
+        $event->order = 0;
+        $event->created_by = auth()->user()->id;
+        $event->uuid = Str::uuid()->toString();
 
         $event = $event->save();
 

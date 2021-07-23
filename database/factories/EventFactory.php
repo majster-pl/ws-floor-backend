@@ -32,6 +32,7 @@ class EventFactory extends Factory
             'asset_id' => Asset::inRandomOrder()->first()->id,
             'customer_id' => Customer::inRandomOrder()->first()->id,
             'booked_date' => $date->format('Y-m-d'),
+            'order' => $this->faker->numberBetween(1, 100),
             'booked_date_time' => $date,
             'created_by' => User::inRandomOrder()->first()->id,
             'allowed_time' => $this->faker->randomDigitNotNull(),

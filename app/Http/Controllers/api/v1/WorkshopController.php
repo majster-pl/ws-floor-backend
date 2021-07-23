@@ -25,9 +25,9 @@ class WorkshopController extends Controller
         $today_date = $today_date->format('Y-m-d');
 
         // return $today_date;
-        $events = Event::where('booked_date', [$today_date])
+        $events = Event::where('booked_date', '>=', [$today_date])
             ->where('status', 'booked')
-            ->orderBy('events.booked_date_time');
+            ->orderBy('events.booked_date');
         // ->get();
         // $events = Event::all();
         $others = Event::where('status', '!=', 'booked')
@@ -94,7 +94,9 @@ class WorkshopController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $event = Event::find($id);
+
+        $event->update($request->all());
     }
 
     /**

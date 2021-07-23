@@ -27,6 +27,7 @@ class WorkshopResource extends JsonResource
             'booked_date_time' => $this->booked_date_time,
             'description' => $this->description,
             'others' => $this->others,
+            'order' => $this->order,
             'isUsed' => true,
             'allowed_time' => $this->allowed_time,
             'status' => $this->status,

@@ -21,6 +21,7 @@ class Event extends Model
         'booked_date',
         'dooked_date_time',
         'created_by',
+        'order',
         'allowed_time',
     ];
 
