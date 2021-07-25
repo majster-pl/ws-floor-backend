@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Date;
 use App\Http\Resources\WorkshopResource;
 use App\Http\Resources\WorkshopCollection;
+use Facade\FlareClient\Http\Response;
 use Symfony\Component\VarDumper\Cloner\Data;
 
 class WorkshopController extends Controller
@@ -24,21 +25,15 @@ class WorkshopController extends Controller
         $today_date = new DateTime();
         $today_date = $today_date->format('Y-m-d');
 
-        // return $today_date;
-        $events = Event::where('booked_date', '>=', [$today_date])
+        $events = Event::whereDate('booked_date', '<=', [$today_date])
             ->where('status', 'booked')
             ->orderBy('events.booked_date');
-        // ->get();
-        // $events = Event::all();
+
         $others = Event::where('status', '!=', 'booked')
-            ->orderBy('events.status')
+            ->orderBy('events.order')
             ->union($events)
             ->get();
 
-        // $marged = $events->merge($others);
-        // $results = $marged->get();
-
-        // return new WorkshopResource($events);
         return new WorkshopCollection($others);
     }
 
@@ -61,6 +56,26 @@ class WorkshopController extends Controller
     public function store(Request $request)
     {
         //
+        $items = $request->order;
+        // $items = explode(" ", $items);
+        $eventIndex = 0;
+        foreach ($items as $key => $value) {
+            // return $value;
+            // return response()->json($value, 200);
+            $order = ['order' => $eventIndex];
+            $event = Event::find($value);
+            $event->update($order);
+            $eventIndex += 1;
+        }
+
+        // $order = ['order' => 100];
+        // $event = Event::find(92);
+        // $event->update($order);
+
+        // $array = explode(',', $request->order);
+        // foreach ($array as $key => $value) {
+        // }
+        // return dd($request->order);
     }
 
     /**
@@ -96,7 +111,33 @@ class WorkshopController extends Controller
     {
         $event = Event::find($id);
 
-        $event->update($request->all());
+        // $event->update($request->all());
+
+        $event->update(
+            [
+                'status' => $request->status,
+            ]
+        );
+
+        // get array of new order for list.
+        $items = $request->order;
+        $eventIndex = 0;
+        foreach ($items as $key => $value) {
+            // return $value;
+            // return response()->json($value, 200);
+            $order = ['order' => $eventIndex];
+            $tempEvent = Event::find($value);
+            $tempEvent->update($order);
+            $eventIndex += 1;
+        }
+
+
+        // return $request;
+
+        // $event->update($request);
+        return $event;
+
+        // $event->update($request->all());
     }
 
     /**

@@ -17,7 +17,7 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('asset_id');
-            $table->unsignedBigInteger('order')->nullable();
+            $table->float('order')->nullable();
             $table->unsignedBigInteger('customer_id');
             $table->boolean('waiting')->nullable()->default(false);
             $table->mediumText('others')->nullable();
@@ -28,7 +28,7 @@ class CreateEventsTable extends Migration
             $table->dateTime('booked_date_time');
             $table->float('allowed_time', 8, 2);
             $table->unsignedBigInteger('created_by');
-            $table->char('status', 20);
+            $table->char('status', 40);
             $table->timestamps();
             $table->softDeletes();
 
