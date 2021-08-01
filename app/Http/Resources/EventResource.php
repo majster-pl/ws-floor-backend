@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use DateTime;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EventResource extends JsonResource
@@ -15,6 +16,7 @@ class EventResource extends JsonResource
     public function toArray($request)
     {
         // return parent::toArray($request);
+        // $date_now = new DateTime(date('Y-m-d h:i'));
         return [
             'event_id' => $this->id,
             'customer_name' => $this->customer->customer_name,
@@ -24,11 +26,18 @@ class EventResource extends JsonResource
             'booked_date' => $this->booked_date,
             'booked_date_time' => $this->booked_date_time,
             'description' => $this->description,
+            'special_instructions' => $this->special_instructions,
             'others' => $this->others,
             'order' => $this->order,
+            'waiting' => $this->waiting,
+            'odometer_in' => $this->odometer_in,
             'isUsed' => true,
             'allowed_time' => $this->allowed_time,
+            'spent_time' => $this->spent_time,
             'status' => $this->status,
+            'arrived_date' => $this->arrived_date,
+            // 'age' => $date_now->diff($this->arrived_date),
+            'collected_at' => $this->collected_at,
         ];
     }
 

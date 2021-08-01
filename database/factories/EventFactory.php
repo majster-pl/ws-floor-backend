@@ -26,6 +26,7 @@ class EventFactory extends Factory
     public function definition()
     {
         $date = $this->faker->dateTimeBetween('now -7 days', '+31 days');
+        $date2 = $this->faker->dateTimeBetween('now -3 days', '0 days');
         return [
             'uuid' => Str::uuid()->toString(),
             'description' => $this->faker->paragraph(1, true),
@@ -33,9 +34,11 @@ class EventFactory extends Factory
             'customer_id' => Customer::inRandomOrder()->first()->id,
             'booked_date' => $date->format('Y-m-d'),
             'booked_date_time' => $date,
+            'arrived_date' => $this->faker->randomElement([null, $date2]),
             'order' => $this->faker->numberBetween(1, 100),
             'created_by' => User::inRandomOrder()->first()->id,
             'allowed_time' => $this->faker->randomDigitNotNull(),
+            'spent_time' => 0,
             'status' => 'booked',
         ];
     }

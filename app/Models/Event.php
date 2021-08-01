@@ -18,11 +18,16 @@ class Event extends Model
         'others',
         'status',
         'description',
+        'special_instructions',
         'booked_date',
         'dooked_date_time',
         'created_by',
         'order',
+        'odometer_in',
         'allowed_time',
+        'spent_time',
+        'arrived_date',
+        'collected_at',
     ];
 
     protected $casts = [

@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use DateTime;
 
 class WorkshopResource extends JsonResource
 {
@@ -15,6 +16,8 @@ class WorkshopResource extends JsonResource
     public function toArray($request)
     {
         // return parent::toArray($request);
+        $date_now = new DateTime('now');
+        $date_arrived = date_create($this->arrived_date);
 
         return [
             'id' => 'event-' . $this->id,
@@ -26,11 +29,16 @@ class WorkshopResource extends JsonResource
             'booked_date' => $this->booked_date,
             'booked_date_time' => $this->booked_date_time,
             'description' => $this->description,
+            'special_instructions' => $this->special_instructions,
             'others' => $this->others,
+            'waiting' => $this->waiting,
+            'odometer_in' => $this->odometer_in,
             'order' => $this->order,
             'isUsed' => true,
             'allowed_time' => $this->allowed_time,
             'status' => $this->status,
+            'arrived_date' => $this->arrived_date,
+            'age' => $date_now->diff($date_arrived)->format('%a days'),
         ];
     }
 }
