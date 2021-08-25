@@ -13,11 +13,14 @@ class WorkshopResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
+
     public function toArray($request)
     {
+
         // return parent::toArray($request);
-        $date_now = new DateTime('now');
-        $date_arrived = date_create($this->arrived_date);
+        $date_now = new DateTime('today');
+        // reset arrive date to 00:00h to count days after midnight
+        $date_arrived = date_create(date_format(date_create($this->arrived_date), "Y-m-d"));
 
         return [
             'id' => 'event-' . $this->id,
@@ -38,7 +41,7 @@ class WorkshopResource extends JsonResource
             'allowed_time' => $this->allowed_time,
             'status' => $this->status,
             'arrived_date' => $this->arrived_date,
-            'age' => $date_now->diff($date_arrived)->format('%a days'),
+            'age' => $date_now->diff($date_arrived)->format('%a'),
         ];
     }
 }
