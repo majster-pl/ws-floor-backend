@@ -10,6 +10,7 @@ use App\Http\Resources\EventResource;
 use App\Http\Resources\EventCollection;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\Response;
+use DateTime;
 
 class EventController extends Controller
 {
@@ -109,7 +110,23 @@ class EventController extends Controller
 
         $event = Event::find($id);
 
-        $event->update($request->all());
+        switch ($request->status) {
+            case 'awaiting_labour':
+                $event->update(
+                    [
+                        'status' => $request->status,
+                        'arrived_date' => new DateTime('now'),
+                        'order' => $request->order,
+                        'special_instructions' => $request->special_instructions,
+                    ]
+                );
+                break;
+
+            default:
+                $event->update($request->all());
+                break;
+        }
+
 
         // $event->update(
         //     [
