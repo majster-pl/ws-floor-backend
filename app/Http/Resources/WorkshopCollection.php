@@ -19,7 +19,7 @@ class WorkshopCollection extends ResourceCollection
     {
         $tasks = $this->all();
         $tasksGrouped = $this->mapToGroups(fn ($item) => [$item['status'] => $item]);;
-        $eventIdsByDate = $this->sortBy('booked_date_time')->mapToGroups(fn ($item) => [$item['status'] => $item->id]);
+        $eventIdsByDate = $this->sortByDesc('booked_date_time')->mapToGroups(fn ($item) => [$item['status'] => $item->id]);
         $taskIdsByOrder = $this->sortBy('order')->mapToGroups(fn ($item) => [$item['status'] => $item->id]);
         // $tasks = $this->map(fn ($item) => [$item->id => [$item]]);
         // $tasksList = (object) array();
@@ -47,7 +47,7 @@ class WorkshopCollection extends ResourceCollection
                 'id' => 'booked',
                 'title' => 'Due in Today',
                 'options' => 'read-only',
-                'taskIds' => isset($taskIdsByOrder['booked']) ? $taskIdsByOrder['booked'] : [],
+                'taskIds' => isset($eventIdsByDate['booked']) ? $eventIdsByDate['booked'] : [],
                 // 'total_time' => 20,
             ],
             'awaiting_labour' => [
