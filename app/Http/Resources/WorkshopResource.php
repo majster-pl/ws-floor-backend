@@ -29,7 +29,6 @@ class WorkshopResource extends JsonResource
             'customer_id' => $this->customer->id,
             'reg' => $this->asset->reg,
             'asset_id' => $this->asset->id,
-            'booked_date' => $this->booked_date,
             'booked_date_time' => $this->booked_date_time,
             'description' => $this->description,
             'special_instructions' => $this->special_instructions,

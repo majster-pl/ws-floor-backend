@@ -25,9 +25,9 @@ class WorkshopController extends Controller
         $today_date = new DateTime();
         $today_date = $today_date->format('Y-m-d');
 
-        $events = Event::whereDate('booked_date', '<=', [$today_date])
+        $events = Event::whereDate('booked_date_time', '<=', [$today_date])
             ->where('status', 'booked')
-            ->orderBy('events.booked_date');
+            ->orderBy('events.booked_date_time');
 
         $others = Event::where('status', '!=', 'booked')
             ->orderBy('events.order')

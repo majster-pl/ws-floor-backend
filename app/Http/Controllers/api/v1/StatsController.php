@@ -38,20 +38,17 @@ class StatsController extends Controller
 
         $eventStatus = $request->status;
         if ($eventStatus !== null) {
-            $stats = Event::whereBetween('booked_date', [$from, $to])
+            $stats = Event::whereBetween('booked_date_time', [$from, $to])
                 ->where('status', $eventStatus)
                 ->orderBy('events.booked_date_time')
                 ->get();
         } else {
-            $stats = Event::whereBetween('booked_date', [$from, $to])
+            $stats = Event::whereBetween('booked_date_time', [$from, $to])
                 ->orderBy('events.booked_date_time')
                 ->get();
         }
 
         return new StatsCollection($stats);
-        // return $events;
-        // $firstDayCount = Event::where('booked_date', '=', $from)->count();
-        // return $firstDayCount;
     }
 
     /**

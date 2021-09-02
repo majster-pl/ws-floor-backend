@@ -31,7 +31,7 @@ class EventController extends Controller
         if ($from === null) {
             return response()->json([
                 'error' => [
-                    'message' => 'unsupported request, please provide start date [YYYY-MM-DD] using "from" argument in request'
+                    'message' => 'unsupported request, please provide start date [YYYY-MM-DD hh:mm] using "from" argument in request'
                 ]
             ]);
         }
@@ -44,11 +44,11 @@ class EventController extends Controller
             ]);
         }
 
-        $to = date('Y-m-d', strtotime(date($from) . ' + ' . $request->days . ' days'));
+        $to = date('Y-m-d h:m', strtotime(date($from) . ' + ' . $request->days . ' days'));
         // $events = Event::withTrashed()->whereBetween('booked_date', [$from, $to])
         //     ->orderBy('events.booked_date_time')
         //     ->get();
-        $events = Event::whereBetween('booked_date', [$from, $to])
+        $events = Event::whereBetween('booked_date_time', [$from, $to])
             ->orderBy('events.booked_date_time')
             ->get();
 
@@ -69,8 +69,7 @@ class EventController extends Controller
         $event->asset_id = $request->asset_id;
         $event->customer_id = $request->customer_id;
         $event->description = $request->description;
-        $event->booked_date = $request->booked_date;
-        $event->booked_date_time = $request->booked_date;
+        $event->booked_date_time = $request->booked_date_time;
         $event->allowed_time = $request->allowed_time;
         $event->status = $request->status;
         $event->others = $request->others;
@@ -116,6 +115,7 @@ class EventController extends Controller
                     [
                         'status' => $request->status,
                         'arrived_date' => new DateTime('now'),
+                        'odometer_in' => $request->odometer_in,
                         'order' => $request->order,
                         'special_instructions' => $request->special_instructions,
                     ]
@@ -132,7 +132,6 @@ class EventController extends Controller
         //     [
         //         'customer_id' => $request->customer_id,
         //         'allowed_time' => $request->allowed_time,
-        //         'booked_date' => $request->booked_date,
         //         'booked_date_time' => $request->booked_date_time,
         //         'description' => $request->description,
         //         'others' => $request->others,
