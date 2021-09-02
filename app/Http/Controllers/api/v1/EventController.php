@@ -70,8 +70,8 @@ class EventController extends Controller
         $event->customer_id = $request->customer_id;
         $event->description = $request->description;
         $event->booked_date = $request->booked_date;
-        $event->allowed_time = $request->allowed_time;
         $event->booked_date_time = $request->booked_date;
+        $event->allowed_time = $request->allowed_time;
         $event->status = $request->status;
         $event->others = $request->others;
 
