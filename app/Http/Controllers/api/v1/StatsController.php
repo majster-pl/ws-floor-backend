@@ -22,7 +22,7 @@ class StatsController extends Controller
         if ($from === null) {
             return response()->json([
                 'error' => [
-                    'message' => 'unsupported request, please provide start date [YYYY-MM-DD] using "from" argument in request'
+                    'message' => 'unsupported request, please provide start date [YYYY-MM-DD hh:mm] using "from" argument in request'
                 ]
             ], Response::HTTP_BAD_REQUEST);
         }
@@ -34,7 +34,8 @@ class StatsController extends Controller
                 ]
             ], Response::HTTP_BAD_REQUEST);
         }
-        $to = date('Y-m-d', strtotime(date($from) . ' + ' . $request->days . ' days'));
+        $to = date('Y-m-d 23:59', strtotime(date($from) . ' + ' . $request->days . ' days'));
+        $from = date('Y-m-d 00:01', strtotime($from));
 
         $eventStatus = $request->status;
         if ($eventStatus !== null) {
@@ -49,6 +50,8 @@ class StatsController extends Controller
         }
 
         return new StatsCollection($stats);
+        // return response()->json($from, 200);
+        // return response()->json($stats, 200);
     }
 
     /**

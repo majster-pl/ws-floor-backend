@@ -21,7 +21,7 @@ class StatsCollection extends ResourceCollection
 
         // group result into seperate dates, need to be done to carry out further proccesing of 
         // the data
-        $collectionByDate = $this->mapToGroups(fn ($item) => [$item['booked_date_time'] => $item]);
+        $collectionByDate = $this->mapToGroups(fn ($item) => [date('Y-m-d', strtotime($item['booked_date_time'])) => $item]);
 
         #create array with range of days from 0 to numebro of days minus 1
         $numberOfDays = range(0, $request->days - 1);

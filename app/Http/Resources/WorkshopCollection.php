@@ -18,7 +18,7 @@ class WorkshopCollection extends ResourceCollection
     public function toArray($request)
     {
         $tasks = $this->all();
-        $tasksGrouped = $this->mapToGroups(fn ($item) => [$item['status'] => $item]);;
+        // $tasksGrouped = $this->mapToGroups(fn ($item) => [$item['status'] => $item]);
         $eventIdsByDate = $this->sortByDesc('booked_date_time')->mapToGroups(fn ($item) => [$item['status'] => $item->id]);
         $taskIdsByOrder = $this->sortBy('order')->mapToGroups(fn ($item) => [$item['status'] => $item->id]);
         // $tasks = $this->map(fn ($item) => [$item->id => [$item]]);

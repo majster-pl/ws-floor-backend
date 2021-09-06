@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use DateTime;
+use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EventResource extends JsonResource
@@ -15,6 +16,7 @@ class EventResource extends JsonResource
      */
     public function toArray($request)
     {
+        $activities = Activity::where('subject_id', $this->id)->orderBy("updated_at", "DESC")->get();
         // return parent::toArray($request);
         // $date_now = new DateTime(date('Y-m-d h:i'));
         return [
@@ -37,6 +39,7 @@ class EventResource extends JsonResource
             'arrived_date' => $this->arrived_date,
             // 'age' => $date_now->diff($this->arrived_date),
             'collected_at' => $this->collected_at,
+            'activities' => $activities,
         ];
     }
 
