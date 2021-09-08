@@ -25,6 +25,7 @@ class CreateEventsTable extends Migration
             $table->mediumText('others')->nullable();
             $table->mediumText('description');
             $table->mediumText('special_instructions')->nullable();
+            $table->mediumText('free_text')->nullable();
             $table->dateTime('arrived_date')->nullable();
             $table->dateTime('collected_at')->nullable();
             $table->dateTime('booked_date_time');

@@ -40,6 +40,7 @@ class EventResource extends JsonResource
             // 'age' => $date_now->diff($this->arrived_date),
             'collected_at' => $this->collected_at,
             'activities' => $activities,
+            'free_text' => $this->free_text,
         ];
     }
 

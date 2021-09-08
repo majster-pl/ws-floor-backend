@@ -29,6 +29,7 @@ class Event extends Model
         'spent_time',
         'arrived_date',
         'collected_at',
+        'free_text'
     ];
 
     // logger

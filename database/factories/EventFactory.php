@@ -39,6 +39,7 @@ class EventFactory extends Factory
             'allowed_time' => $this->faker->randomDigitNotNull(),
             'spent_time' => 0,
             'status' => 'booked',
+            'free_text' => $this->faker->paragraph(1, true),
         ];
     }
 }
