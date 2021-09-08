@@ -32,14 +32,14 @@ class EventFactory extends Factory
             'description' => $this->faker->paragraph(1, true),
             'asset_id' => Asset::inRandomOrder()->first()->id,
             'customer_id' => Customer::inRandomOrder()->first()->id,
-            'booked_date_time' => $date,
+            'booked_date_time' => $date->setTime(10, 0),
             'arrived_date' => $this->faker->randomElement([null, $date2]),
             'order' => $this->faker->numberBetween(1, 100),
             'created_by' => User::inRandomOrder()->first()->id,
             'allowed_time' => $this->faker->randomDigitNotNull(),
             'spent_time' => 0,
             'status' => 'booked',
-            'free_text' => $this->faker->paragraph(1, true),
+            'free_text' => "#1. Initial comment",
         ];
     }
 }

@@ -110,17 +110,17 @@ class EventController extends Controller
         $event = Event::find($id);
 
         switch ($request->status) {
-            case 'awaiting_labour':
-                $event->update(
-                    [
-                        'status' => $request->status,
-                        'arrived_date' => new DateTime('now'),
-                        'odometer_in' => $request->odometer_in,
-                        'order' => $request->order,
-                        'special_instructions' => $request->special_instructions,
-                    ]
-                );
-                break;
+                // case 'awaiting_labour':
+                //     $event->update(
+                //         [
+                //             'status' => $request->status,
+                //             'arrived_date' => new DateTime('now'),
+                //             'odometer_in' => $request->odometer_in,
+                //             'order' => $request->order,
+                //             'special_instructions' => $request->special_instructions,
+                //         ]
+                //     );
+                //     break;
 
             default:
                 $event->update($request->all());
