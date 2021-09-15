@@ -18,13 +18,3 @@ Auth::routes();
 // Route::middleware('auth.basic')->get('/home', function (Request $request) {
 //     return Auth::user();
 // });
-
-Route::get("/booking", function () {
-    $data = [
-        'booked_date_time' => "2021-09-17 13:30",
-        'asset_id' => Asset::inRandomOrder()->first()->reg,
-    ];
-
-    // Mail::to('admin@gmail.com')->send(new BookingConfirmation($data));
-    return new BookingConfirmation($data);
-});
