@@ -89,6 +89,8 @@ class EventController extends Controller
             'booked_date_time' => $request->booked_date_time,
             'reg' => Asset::find($request->asset_id)->reg,
             'description' => $request->description,
+            'customer' => Customer::find($request->customer_id)->customer_name,
+            'others' => $request->others,
         ];
 
         $email = Customer::find($request->customer_id)->email;
