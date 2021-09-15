@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use DateTime;
+use App\Models\User;
 use App\Models\Event;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Mail\BookingConfirmation;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\EventCollection;
-use App\Models\User;
+use App\Models\Asset;
+use App\Models\Customer;
 use Symfony\Component\HttpFoundation\Response;
-use DateTime;
 
 class EventController extends Controller
 {
@@ -79,6 +84,16 @@ class EventController extends Controller
         $event->uuid = Str::uuid()->toString();
 
         $event = $event->save();
+
+        $data = [
+            'booked_date_time' => $request->booked_date_time,
+            'reg' => Asset::find($request->asset_id)->reg,
+            'description' => $request->description,
+        ];
+
+        $email = Customer::find($request->customer_id)->email;
+
+        Mail::to($email)->send(new BookingConfirmation($data));
 
         return $event;
     }
