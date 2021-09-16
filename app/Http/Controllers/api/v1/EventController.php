@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\EventCollection;
+use App\Mail\BookingChangesConfirmation;
 use App\Models\Asset;
 use App\Models\Customer;
 use Symfony\Component\HttpFoundation\Response;
@@ -126,44 +127,20 @@ class EventController extends Controller
 
         $event = Event::find($id);
 
-        switch ($request->status) {
-                // case 'awaiting_labour':
-                //     $event->update(
-                //         [
-                //             'status' => $request->status,
-                //             'arrived_date' => new DateTime('now'),
-                //             'odometer_in' => $request->odometer_in,
-                //             'order' => $request->order,
-                //             'special_instructions' => $request->special_instructions,
-                //         ]
-                //     );
-                //     break;
+        $data = [
+            'booked_date_time' => $event->booked_date_time,
+            'reg' => Asset::find($event->asset_id)->reg,
+            'description' => $event->description,
+            'customer' => Customer::find($request->customer_id)->customer_name,
+            'others' => $event->others,
+        ];
 
-            default:
-                $event->update($request->all());
-                break;
-        }
+        $event->update($request->all());
+        $email = Customer::find($event->customer_id)->email;
 
+        Mail::to($email)->send(new BookingChangesConfirmation($data));
 
-        // $event->update(
-        //     [
-        //         'customer_id' => $request->customer_id,
-        //         'allowed_time' => $request->allowed_time,
-        //         'booked_date_time' => $request->booked_date_time,
-        //         'description' => $request->description,
-        //         'others' => $request->others,
-        //         'status' => $request->status,
-        //     ]
-        // );
-
-
-        // return $request;
-
-        // $event->update($request);
         return $event;
-
-        // return $request;
-
     }
 
     /**
