@@ -128,11 +128,11 @@ class EventController extends Controller
         $event = Event::find($id);
 
         $data = [
-            'booked_date_time' => $event->booked_date_time,
-            'reg' => Asset::find($event->asset_id)->reg,
-            'description' => $event->description,
+            'booked_date_time' => $request->booked_date_time,
+            'reg' => Asset::find($request->asset_id)->reg,
+            'description' => $request->description,
             'customer' => Customer::find($request->customer_id)->customer_name,
-            'others' => $event->others,
+            'others' => $request->others,
         ];
 
         $event->update($request->all());
