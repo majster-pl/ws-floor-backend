@@ -15,7 +15,17 @@ ws-floor-backend is a API service based on Laravel. It is build to serve backend
 #### Create .env file:
 `cp .env.example .env`
 
-#### Edit .env file:
+#### Generate key
+`php artisan key:generate`
+
+#### Edit .env file: 
+edit database name, password etc.
+
+#### Migrate
+`php artisan migrate`
+*or with dammy data*
+`php artisan migrate --seed`
+
 
 
 ## Contributing
