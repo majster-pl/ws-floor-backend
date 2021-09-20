@@ -4,12 +4,13 @@ namespace App\Http\Controllers\api\v1;
 
 use DateTime;
 use App\Models\Event;
+use App\Events\UpdatedEvent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Date;
+use Facade\FlareClient\Http\Response;
 use App\Http\Resources\WorkshopResource;
 use App\Http\Resources\WorkshopCollection;
-use Facade\FlareClient\Http\Response;
 use Symfony\Component\VarDumper\Cloner\Data;
 
 class WorkshopController extends Controller
@@ -131,6 +132,7 @@ class WorkshopController extends Controller
             $eventIndex += 1;
         }
 
+        broadcast(new UpdatedEvent())->toOthers();
 
         // return $request;
 

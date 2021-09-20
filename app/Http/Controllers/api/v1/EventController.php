@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\api\v1;
 
+use App\Events\NewEvent;
+use App\Events\UpdatedEvent;
 use DateTime;
 use App\Models\User;
 use App\Models\Event;
@@ -98,6 +100,8 @@ class EventController extends Controller
 
         Mail::to($email)->send(new BookingConfirmation($data));
 
+        broadcast(new NewEvent())->toOthers();
+
         return $event;
     }
 
@@ -139,6 +143,7 @@ class EventController extends Controller
         $email = Customer::find($event->customer_id)->email;
 
         Mail::to($email)->send(new BookingChangesConfirmation($data));
+        broadcast(new UpdatedEvent())->toOthers();
 
         return $event;
     }
