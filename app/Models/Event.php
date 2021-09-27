@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
 
 class Event extends Model
 {
@@ -32,34 +33,26 @@ class Event extends Model
         'free_text'
     ];
 
-    // logger
-    protected static $logAttributes = [
-        'event_id',
-        'status',
-        'description',
-        'customer_id',
-        'asset_id',
-        'others',
-        'special_instructions',
-        'arrived_date',
-        'odometer_in',
-        'allowed_time',
-        'booked_date_time',
-        'collected_at',
-        'waiting',
-    ];
-    protected static $logName = 'event';
-    protected static $logOnlyDirty = true;
-    public function getDescriptionForEvent(string $eventName): string
+    // Activity Logger
+    public function getActivitylogOptions(): LogOptions
     {
-        // return "Event {$eventName} by System";
-        return "Event {$eventName} by " . Auth::user()->name;
+        $user = "System";
+        if(isset(Auth::user()->name)){
+            $user = Auth::user()->name;
+        }
+
+        return LogOptions::defaults()
+            ->logOnly(['status', 'free_text', 'asset.reg', 'customer.customer_name', 'allowed_time', 'arrived_date', 'others', 'waiting', 'description', 'odometer_in', 'collected_at', 'odometer_out', 'booked_date_time', 'special_instructions'])
+            ->setDescriptionForEvent(fn (string $eventName) => "Event {$eventName} by " . $user)
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs();
     }
+
+
 
     protected $casts = [
         'allowed_time' => 'float',
     ];
-
 
     public function asset()
     {
