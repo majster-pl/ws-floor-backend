@@ -81,6 +81,7 @@ class EventController extends Controller
         $event->allowed_time = $request->allowed_time;
         $event->status = $request->status;
         $event->others = $request->others;
+        $event->waiting = $request->waiting;
 
         $event->order = 0;
         $event->created_by = auth()->user()->id;
