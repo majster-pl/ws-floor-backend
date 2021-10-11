@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Events\UpdatedEvent;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Facade\FlareClient\Http\Response;
 use App\Http\Resources\WorkshopResource;
@@ -20,17 +21,18 @@ class WorkshopController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
         $today_date = new DateTime();
         $today_date = $today_date->format('Y-m-d');
+        $depot = $request->depot;
 
         $events = Event::whereDate('booked_date_time', '<=', [$today_date])
-            ->where('status', 'booked')
+            ->where([['status', 'booked'], ['belongs_to_depot', $depot ? $depot : Auth::user()->default_depot]])
             ->orderBy('events.booked_date_time');
 
-        $others = Event::where('status', '!=', 'booked')
+        $others = Event::where([['status', '!=', 'booked'], ['belongs_to_depot', $depot ? $depot : Auth::user()->default_depot]])
             ->orderBy('events.order')
             ->union($events)
             ->get();

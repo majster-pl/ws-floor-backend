@@ -7,10 +7,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\api\v1\AssetController;
+use App\Http\Controllers\api\v1\CompanyController;
+use App\Http\Controllers\api\v1\DepotController;
 use App\Http\Controllers\api\v1\EventController;
 use App\Http\Controllers\api\v1\StatsController;
 use App\Http\Controllers\api\v1\CustomerController;
 use App\Http\Controllers\api\v1\WorkshopController;
+use App\Models\Company;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +43,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('events', EventController::class);
     Route::apiResource('workshop', WorkshopController::class);
     Route::apiResource('stats', StatsController::class);
+    Route::apiResource('depot', DepotController::class);
+    Route::apiResource('company', CompanyController::class);
 
 
     // Route::get('/assets', function () {
@@ -54,10 +59,15 @@ Route::middleware('auth:sanctum')->group(function () {
     // });
 
     Route::get('/logged-in', function () {
-        return Auth::user();
-        // return response()->json([
-        //     'logged-in' => 'true', $res
-        // ], Response::HTTP_OK);
+        // return Auth::user();
+        $user = Auth::user();
+        $user["logged-in"] = true;
+        $company = Company::where('id', $user->belongs_to)->get();
+        $user["company"] = $company[0]->name;
+        return response()->json(
+            $user,
+            Response::HTTP_OK
+        );
     });
 
     Route::fallback(function () {

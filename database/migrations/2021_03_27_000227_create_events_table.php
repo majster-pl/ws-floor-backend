@@ -32,11 +32,14 @@ class CreateEventsTable extends Migration
             $table->float('allowed_time', 8, 2);
             $table->float('spent_time', 8, 2)->nullable();
             $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('belongs_to')->nullable();
+            $table->unsignedBigInteger('belongs_to_depot')->nullable();
             $table->char('status', 40);
             $table->timestamps();
             $table->softDeletes();
 
-
+            $table->foreign('belongs_to')->references('id')->on('companies');
+            $table->foreign('belongs_to_depot')->references('id')->on('depots');
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('asset_id')->references('id')->on('assets');
             $table->foreign('customer_id')->references('id')->on('customers');

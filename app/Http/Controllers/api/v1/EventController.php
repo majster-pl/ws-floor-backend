@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers\api\v1;
 
-use App\Events\NewEvent;
-use App\Events\UpdatedEvent;
 use DateTime;
 use App\Models\User;
+use App\Models\Asset;
 use App\Models\Event;
+use App\Events\NewEvent;
+use App\Models\Customer;
 use Illuminate\Support\Str;
+use App\Events\UpdatedEvent;
 use Illuminate\Http\Request;
 use App\Mail\BookingConfirmation;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\EventCollection;
 use App\Mail\BookingChangesConfirmation;
-use App\Models\Asset;
-use App\Models\Customer;
 use Symfony\Component\HttpFoundation\Response;
 
 class EventController extends Controller
@@ -29,12 +30,7 @@ class EventController extends Controller
      */
     public function index(Request $request)
     {
-        // $events = Event::all();
-        // $event = $events->find(1);
-        // $reg = Event::find(1)->asset->reg;
-        // $event = Event::paginate(4);
-        // $event->reg = $event->asset->reg;
-        // return response()->json([$event]);
+
         $from = $request->from;
         if ($from === null) {
             return response()->json([
@@ -51,12 +47,14 @@ class EventController extends Controller
                 ]
             ]);
         }
+        $depot = $request->depot;
 
         $to = date('Y-m-d h:m', strtotime(date($from) . ' + ' . $request->days . ' days'));
         // $events = Event::withTrashed()->whereBetween('booked_date', [$from, $to])
         //     ->orderBy('events.booked_date_time')
         //     ->get();
         $events = Event::whereBetween('booked_date_time', [$from, $to])
+            ->where('belongs_to_depot', $depot ? $depot : Auth::user()->default_depot)
             ->orderBy('events.booked_date_time')
             ->get();
 
@@ -82,6 +80,8 @@ class EventController extends Controller
         $event->status = $request->status;
         $event->others = $request->others;
         $event->waiting = $request->waiting;
+        $event->belongs_to = Auth::user()->belongs_to;
+        $event->belongs_to_depot = $request->depot;
 
         $event->order = 0;
         $event->created_by = auth()->user()->id;

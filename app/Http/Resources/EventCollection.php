@@ -15,7 +15,6 @@ class EventCollection extends ResourceCollection
     public function toArray($request)
     {
         // return parent::toArray($request);
-
         if ($request->days === null) {
             return parent::toArray(['message' => 'unsupported request, please check documentation']);
         }

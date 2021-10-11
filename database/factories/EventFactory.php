@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\User;
 use App\Models\Asset;
 use App\Models\Customer;
+use App\Models\Depot;
 use App\Models\Event;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -27,6 +28,7 @@ class EventFactory extends Factory
     {
         $date = $this->faker->dateTimeBetween('now -7 days', '+31 days');
         $date2 = $this->faker->dateTimeBetween('now -3 days', '0 days');
+        $company = User::inRandomOrder()->first()->belongs_to;
         return [
             'uuid' => Str::uuid()->toString(),
             'description' => $this->faker->paragraph(1, true),
@@ -37,6 +39,8 @@ class EventFactory extends Factory
             'order' => $this->faker->numberBetween(1, 100),
             'created_by' => User::inRandomOrder()->first()->id,
             'allowed_time' => $this->faker->randomDigitNotNull(),
+            'belongs_to' => $company,
+            'belongs_to_depot' => Depot::where('belongs_to_id', $company)->inRandomOrder()->first()->id,
             'spent_time' => 0,
             'status' => 'booked',
             'free_text' => "#1. Initial comment",
