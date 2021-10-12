@@ -19,6 +19,7 @@ class CreateAssetsTable extends Migration
             $table->string('reg')->unique();
             $table->string('make')->nullable();
             $table->string('model')->nullable();
+            $table->unsignedBigInteger('belongs_to')->nullable();
             $table->unsignedBigInteger('owner_id')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->char('status', 20);
@@ -26,7 +27,8 @@ class CreateAssetsTable extends Migration
             $table->softDeletes();
 
             $table->foreign('created_by')->references('id')->on('users');
-            $table->foreign('owner_id')->references('id')->on('customers');
+            $table->foreign('owner_id')->references('id')->on('companies');
+            $table->foreign('belongs_to')->references('id')->on('customers');
         });
     }
 

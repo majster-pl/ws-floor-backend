@@ -31,7 +31,8 @@ class AssetFactory extends Factory
             'model' => $this->faker->word(),
             'status' => $this->faker->randomElement(['active', 'on_hold']),
             'created_by' => User::inRandomOrder()->first()->id,
-            'owner_id' => Customer::inRandomOrder()->first()->id,
+            'belongs_to' => Customer::inRandomOrder()->first()->id,
+            'owner_id' => User::inRandomOrder()->first()->owner_id,
         ];
     }
 }

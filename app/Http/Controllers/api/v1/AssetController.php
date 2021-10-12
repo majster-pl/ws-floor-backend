@@ -21,7 +21,8 @@ class AssetController extends Controller
      */
     public function index()
     {
-        $assets = Asset::all()->sortBy('reg');
+        $assets = Asset::where("owner_id", Auth::user()->owner_id)->get()
+            ->sortBy('reg');
         return new AssetCollection($assets);
         // return $asset;
     }
@@ -47,6 +48,7 @@ class AssetController extends Controller
         $data = $request->all();
         $data['reg'] = strtoupper($request->reg);
         $data['uuid'] = Str::uuid()->toString();
+        $data['owner_id'] = Auth::user()->owner_id;
         $data['created_by'] = Auth::id();
         $new = Asset::create($data);
 

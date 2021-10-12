@@ -21,7 +21,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all()->sortBy('customer_name', SORT_NATURAL | SORT_FLAG_CASE);
+        $customers = Customer::where("owner_id", Auth::user()->owner_id)->get()
+            ->sortBy('customer_name', SORT_NATURAL | SORT_FLAG_CASE);
         return new CustomerCollection($customers);
     }
 
@@ -45,11 +46,11 @@ class CustomerController extends Controller
     {
         $data = $request->all();
         $data['status'] = "active";
+        $data['owner_id'] = Auth::user()->owner_id;
         $data['uuid'] =
             Str::uuid()->toString();
         $data['created_by'] = Auth::id();
         $new = Customer::create($data);
-
         // $customer = Customer::create();
         // $customer->$request->all();
         // $customer->status = "active";

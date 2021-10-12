@@ -19,5 +19,6 @@ class Asset extends Model
         'belongs_to',
         'status',
         'created_by',
+        'owner_id',
     ];
 }
