@@ -19,13 +19,13 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->unsignedBigInteger('belongs_to')->nullable();
-            $table->unsignedBigInteger('default_depot')->nullable();
+            $table->unsignedBigInteger('owner_id')->nullable();
+            $table->unsignedBigInteger('default_branch')->nullable();
             $table->rememberToken();
             $table->timestamps();
 
-            $table->foreign('belongs_to')->references('id')->on('companies');
-            $table->foreign('default_depot')->references('id')->on('depots');
+            $table->foreign('owner_id')->references('id')->on('companies');
+            $table->foreign('default_branch')->references('id')->on('depots');
         });
     }
 

@@ -27,39 +27,39 @@ class DatabaseSeeder extends Seeder
 
         DB::table('depots')->insert([
             'name' => 'Avonmouth',
-            'belongs_to_id' => 1,
+            'owner_id' => 1,
         ]);
 
         DB::table('depots')->insert([
             'name' => 'Gloucester',
-            'belongs_to_id' => 1,
+            'owner_id' => 1,
         ]);
 
         DB::table('depots')->insert([
             'name' => 'Swindon',
-            'belongs_to_id' => 1,
+            'owner_id' => 1,
         ]);
 
         DB::table('depots')->insert([
             'name' => 'Cardiff',
-            'belongs_to_id' => 2,
+            'owner_id' => 2,
         ]);
 
         DB::table('depots')->insert([
             'name' => 'Newport',
-            'belongs_to_id' => 2,
+            'owner_id' => 2,
         ]);
         DB::table('depots')->insert([
             'name' => 'Krakow',
-            'belongs_to_id' => 2,
+            'owner_id' => 2,
         ]);
 
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password123'),
-            'belongs_to' => 1,
-            'default_depot' => 1,
+            'owner_id' => 1,
+            'default_branch' => 1,
         ]);
 
 
@@ -67,8 +67,8 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test',
             'email' => 'test@gmail.com',
             'password' => Hash::make('password123'),
-            'belongs_to' => 2,
-            'default_depot' => 4,
+            'owner_id' => 2,
+            'default_branch' => 4,
         ]);
         // \App\Models\User::factory(10)->create();
 

@@ -17,5 +17,6 @@ class Customer extends Model
         'created_by',
         'customer_contact',
         'status',
+        'owner_id',
     ];
 }

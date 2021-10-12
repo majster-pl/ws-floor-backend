@@ -30,6 +30,7 @@ class CustomerFactory extends Factory
             'created_by' => User::inRandomOrder()->first()->id,
             'customer_contact' => $this->faker->tollFreePhoneNumber(),
             'status' => $this->faker->randomElement(['active', 'on_hold']),
+            'owner_id' => User::inRandomOrder()->first()->owner_id,
         ];
     }
 }

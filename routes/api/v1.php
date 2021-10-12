@@ -62,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
         // return Auth::user();
         $user = Auth::user();
         $user["logged-in"] = true;
-        $company = Company::where('id', $user->belongs_to)->get();
+        $company = Company::where('id', $user->owner_id)->get();
         $user["company"] = $company[0]->name;
         return response()->json(
             $user,

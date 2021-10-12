@@ -27,7 +27,7 @@ class CustomerResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'created_by_name' => User::find($this->created_by)->name,
-            'assets_total' => Asset::where('belongs_to', '=', $this->id)->count(),
+            'assets_total' => Asset::where('owner_id', '=', $this->id)->count(),
             'status' => $this->status,
         ];
     }

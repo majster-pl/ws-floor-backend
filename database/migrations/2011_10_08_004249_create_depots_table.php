@@ -16,12 +16,12 @@ class CreateDepotsTable extends Migration
         Schema::create('depots', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->unsignedBigInteger('belongs_to_id')->nullable();
-            $table->string('belongs_to')->nullable();
+            $table->unsignedBigInteger('owner_id')->nullable();
+            $table->string('owner_name')->nullable();
             $table->timestamps();
 
-            $table->foreign('belongs_to_id')->references('id')->on('companies');
-            $table->foreign('belongs_to')->references('name')->on('companies');
+            $table->foreign('owner_id')->references('id')->on('companies');
+            $table->foreign('owner_name')->references('name')->on('companies');
         });
     }
 

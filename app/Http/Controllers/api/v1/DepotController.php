@@ -16,7 +16,7 @@ class DepotController extends Controller
      */
     public function index()
     {
-        $depots = Depot::where('belongs_to_id', Auth::user()->belongs_to)->get();
+        $depots = Depot::where('owner_id', Auth::user()->owner_id)->get();
         return $depots;
     }
 

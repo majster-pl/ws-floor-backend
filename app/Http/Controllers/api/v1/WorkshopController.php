@@ -29,10 +29,10 @@ class WorkshopController extends Controller
         $depot = $request->depot;
 
         $events = Event::whereDate('booked_date_time', '<=', [$today_date])
-            ->where([['status', 'booked'], ['belongs_to_depot', $depot ? $depot : Auth::user()->default_depot]])
+            ->where([['status', 'booked'], ['owning_branch', $depot ? $depot : Auth::user()->default_branch]])
             ->orderBy('events.booked_date_time');
 
-        $others = Event::where([['status', '!=', 'booked'], ['belongs_to_depot', $depot ? $depot : Auth::user()->default_depot]])
+        $others = Event::where([['status', '!=', 'booked'], ['owning_branch', $depot ? $depot : Auth::user()->default_branch]])
             ->orderBy('events.order')
             ->union($events)
             ->get();

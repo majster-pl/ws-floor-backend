@@ -54,7 +54,7 @@ class EventController extends Controller
         //     ->orderBy('events.booked_date_time')
         //     ->get();
         $events = Event::whereBetween('booked_date_time', [$from, $to])
-            ->where('belongs_to_depot', $depot ? $depot : Auth::user()->default_depot)
+            ->where('owning_branch', $depot ? $depot : Auth::user()->default_branch)
             ->orderBy('events.booked_date_time')
             ->get();
 
@@ -80,8 +80,8 @@ class EventController extends Controller
         $event->status = $request->status;
         $event->others = $request->others;
         $event->waiting = $request->waiting;
-        $event->belongs_to = Auth::user()->belongs_to;
-        $event->belongs_to_depot = $request->depot;
+        $event->owner_id = Auth::user()->owner_id;
+        $event->owning_branch = $request->depot;
 
         $event->order = 0;
         $event->created_by = auth()->user()->id;

@@ -22,6 +22,9 @@ class CreateCustomersTable extends Migration
             $table->mediumText('customer_contact')->nullable();
             $table->string('status');
             $table->timestamps();
+            $table->unsignedBigInteger('owner_id');
+
+            $table->foreign('owner_id')->references('id')->on('companies');
             $table->foreign('created_by')->references('id')->on('users');
             $table->softDeletes();
         });
