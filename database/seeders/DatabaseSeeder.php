@@ -49,10 +49,6 @@ class DatabaseSeeder extends Seeder
             'name' => 'Newport',
             'owner_id' => 2,
         ]);
-        DB::table('depots')->insert([
-            'name' => 'Krakow',
-            'owner_id' => 2,
-        ]);
 
         DB::table('users')->insert([
             'name' => 'Admin',
