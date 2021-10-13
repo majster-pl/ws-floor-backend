@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\api\v1;
 
-use App\Http\Controllers\Controller;
-use App\Http\Resources\CustomerCollection;
-use App\Http\Resources\CustomerResource;
-use App\Models\Customer;
 use App\Models\Event;
-use Illuminate\Http\Request;
+use App\Models\Customer;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\CustomerResource;
+use App\Http\Resources\CustomerCollection;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class CustomerController extends Controller
@@ -72,8 +73,18 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::find($id);
-        return new CustomerResource($customer);
+        $customer = Customer::where([['id', $id], ['owner_id', Auth::user()
+            ->owner_id]])->first();
+        if ($customer) {
+            return new CustomerResource($customer);
+        } else {
+            $response = ['message' => 'Customer Not Found!'];
+            return response()->json(
+                $response,
+                Response::HTTP_NOT_FOUND
+            );
+        }
+        
     }
 
     /**

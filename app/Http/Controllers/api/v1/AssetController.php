@@ -4,12 +4,13 @@ namespace App\Http\Controllers\api\v1;
 
 use App\Models\Asset;
 use App\Models\Event;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\AssetResource;
 use App\Http\Resources\AssetCollection;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class AssetController extends Controller
@@ -63,8 +64,17 @@ class AssetController extends Controller
      */
     public function show($id)
     {
-        $asset = Asset::find($id);
-        return new AssetResource($asset);
+        $asset = Asset::where([['id', $id], ['owner_id', Auth::user()
+            ->owner_id]])->first();
+        if ($asset) {
+            return new AssetResource($asset);
+        } else {
+            $response = ['message' => 'Asset Not Found!'];
+            return response()->json(
+                $response,
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 
     /**

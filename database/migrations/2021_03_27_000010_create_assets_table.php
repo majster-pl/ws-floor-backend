@@ -16,7 +16,7 @@ class CreateAssetsTable extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->string('reg')->unique();
+            $table->string('reg');
             $table->string('make')->nullable();
             $table->string('model')->nullable();
             $table->unsignedBigInteger('belongs_to')->nullable();
@@ -25,6 +25,7 @@ class CreateAssetsTable extends Migration
             $table->char('status', 20);
             $table->timestamps();
             $table->softDeletes();
+            $table->unique(['reg', 'owner_id']);
 
             $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('owner_id')->references('id')->on('companies');

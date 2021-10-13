@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api\v1;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\StatsCollection;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -37,14 +38,17 @@ class StatsController extends Controller
         $to = date('Y-m-d 23:59', strtotime(date($from) . ' + ' . $request->days . ' days'));
         $from = date('Y-m-d 00:01', strtotime($from));
 
+        $depot = $request->depot;
         $eventStatus = $request->status;
+
         if ($eventStatus !== null) {
             $stats = Event::whereBetween('booked_date_time', [$from, $to])
-                ->where('status', $eventStatus)
+                ->where([['status', $eventStatus], ['owning_branch', $depot ? $depot : Auth::user()->default_branch]])
                 ->orderBy('events.booked_date_time')
                 ->get();
         } else {
             $stats = Event::whereBetween('booked_date_time', [$from, $to])
+                ->where('owning_branch', $depot ? $depot : Auth::user()->default_branch)
                 ->orderBy('events.booked_date_time')
                 ->get();
         }
