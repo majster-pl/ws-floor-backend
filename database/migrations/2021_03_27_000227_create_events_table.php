@@ -29,6 +29,7 @@ class CreateEventsTable extends Migration
             $table->dateTime('arrived_date')->nullable();
             $table->dateTime('collected_at')->nullable();
             $table->dateTime('booked_date_time');
+            $table->boolean('breakdown')->default(false);
             $table->float('allowed_time', 8, 2);
             $table->float('spent_time', 8, 2)->nullable();
             $table->unsignedBigInteger('created_by');

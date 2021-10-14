@@ -30,19 +30,36 @@ class Event extends Model
         'spent_time',
         'arrived_date',
         'collected_at',
-        'free_text'
+        'free_text',
+        'breakdown',
     ];
 
     // Activity Logger
     public function getActivitylogOptions(): LogOptions
     {
         $user = "System";
-        if(isset(Auth::user()->name)){
+        if (isset(Auth::user()->name)) {
             $user = Auth::user()->name;
         }
 
         return LogOptions::defaults()
-            ->logOnly(['status', 'free_text', 'asset.reg', 'customer.customer_name', 'allowed_time', 'arrived_date', 'others', 'waiting', 'description', 'odometer_in', 'collected_at', 'odometer_out', 'booked_date_time', 'special_instructions'])
+            ->logOnly([
+                'status',
+                'free_text',
+                'asset.reg',
+                'customer.customer_name',
+                'allowed_time',
+                'arrived_date',
+                'others',
+                'waiting',
+                'description',
+                'odometer_in',
+                'collected_at',
+                'odometer_out',
+                'booked_date_time',
+                'special_instructions',
+                'breakdown',
+            ])
             ->setDescriptionForEvent(fn (string $eventName) => "Event {$eventName} by " . $user)
             ->logOnlyDirty()
             ->dontSubmitEmptyLogs();

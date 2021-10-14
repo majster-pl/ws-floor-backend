@@ -24,6 +24,7 @@ class EventResource extends JsonResource
             'customer_name' => $this->customer->customer_name,
             'customer_id' => $this->customer->id,
             'reg' => $this->asset->reg,
+            'breakdown' => $this->breakdown,
             'asset_id' => $this->asset->id,
             'booked_date_time' => $this->booked_date_time,
             'description' => $this->description,

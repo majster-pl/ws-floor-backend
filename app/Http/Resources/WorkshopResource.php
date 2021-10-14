@@ -35,6 +35,7 @@ class WorkshopResource extends JsonResource
             'others' => $this->others,
             'waiting' => $this->waiting,
             'odometer_in' => $this->odometer_in,
+            'breakdown' => $this->breakdown,
             'order' => $this->order,
             'isUsed' => true,
             'allowed_time' => $this->allowed_time,

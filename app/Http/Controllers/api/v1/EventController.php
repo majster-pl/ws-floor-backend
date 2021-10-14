@@ -82,6 +82,7 @@ class EventController extends Controller
         $event->waiting = $request->waiting;
         $event->owner_id = Auth::user()->owner_id;
         $event->owning_branch = $request->depot;
+        $event->breakdown = $request->breakdown;
 
         $event->order = 0;
         $event->created_by = auth()->user()->id;
