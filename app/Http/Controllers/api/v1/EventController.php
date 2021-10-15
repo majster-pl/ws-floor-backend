@@ -77,7 +77,9 @@ class EventController extends Controller
         $event->description = $request->description;
         $event->booked_date_time = $request->booked_date_time;
         $event->allowed_time = $request->allowed_time;
-        $event->status = $request->status;
+
+        //if breakdown check vehilce in with status awaiting_labour
+        $event->status = $request->breakdown === true ? "awaiting_labour" : $request->status;
         $event->others = $request->others;
         $event->waiting = $request->waiting;
         $event->owner_id = Auth::user()->owner_id;
@@ -87,6 +89,8 @@ class EventController extends Controller
         $event->order = 0;
         $event->created_by = auth()->user()->id;
         $event->uuid = Str::uuid()->toString();
+
+        $notification = $event->notification;
 
         $event = $event->save();
 
@@ -98,9 +102,11 @@ class EventController extends Controller
             'others' => $request->others,
         ];
 
-        $email = Customer::find($request->customer_id)->email;
+        if ($notification) {
+            $email = Customer::find($request->customer_id)->email;
+            Mail::to($email)->send(new BookingConfirmation($data));
+        }
 
-        Mail::to($email)->send(new BookingConfirmation($data));
 
         broadcast(new NewEvent())->toOthers();
 
@@ -140,11 +146,14 @@ class EventController extends Controller
             'customer' => Customer::find($request->customer_id)->customer_name,
             'others' => $request->others,
         ];
-
+        
         $event->update($request->all());
-        $email = Customer::find($event->customer_id)->email;
 
-        Mail::to($email)->send(new BookingChangesConfirmation($data));
+        $notification = $request->notification;
+        if ($notification) {
+            $email = Customer::find($event->customer_id)->email;            
+            Mail::to($email)->send(new BookingChangesConfirmation($data));
+        }
         broadcast(new UpdatedEvent())->toOthers();
 
         return $event;

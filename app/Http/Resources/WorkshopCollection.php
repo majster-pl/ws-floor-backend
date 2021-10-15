@@ -56,6 +56,11 @@ class WorkshopCollection extends ResourceCollection
                 'taskIds' => isset($taskIdsByOrder['awaiting_labour']) ? $taskIdsByOrder['awaiting_labour'] : [],
                 // 'total_time' => 20,
             ],
+            'planned' => [
+                'id' => 'planned',
+                'title' => 'Planned',
+                'taskIds' => isset($taskIdsByOrder['planned']) ? $taskIdsByOrder['planned'] : [],
+            ],
             'work_in_progress' => [
                 'id' => 'work_in_progress',
                 'title' => 'Work in progress',
@@ -107,6 +112,7 @@ class WorkshopCollection extends ResourceCollection
         $columnOrder = [
             'booked',
             'awaiting_labour',
+            'planned',
             'work_in_progress',
             'awaiting_estimates',
             'awaiting_part',
