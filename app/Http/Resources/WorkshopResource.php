@@ -38,6 +38,7 @@ class WorkshopResource extends JsonResource
             'breakdown' => $this->breakdown,
             'order' => $this->order,
             'isUsed' => true,
+            'key_location' => $this->key_location,
             'allowed_time' => $this->allowed_time,
             'status' => $this->status,
             'arrived_date' => $this->arrived_date,

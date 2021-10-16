@@ -34,6 +34,7 @@ class EventResource extends JsonResource
             'waiting' => $this->waiting,
             'odometer_in' => $this->odometer_in,
             'isUsed' => true,
+            'key_location' => $this->key_location,
             'allowed_time' => $this->allowed_time,
             'spent_time' => $this->spent_time,
             'status' => $this->status,

@@ -31,6 +31,7 @@ class CreateEventsTable extends Migration
             $table->dateTime('booked_date_time');
             $table->boolean('breakdown')->default(false);
             $table->float('allowed_time', 8, 2);
+            $table->integer('key_location')->nullable();
             $table->float('spent_time', 8, 2)->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('owner_id')->nullable();

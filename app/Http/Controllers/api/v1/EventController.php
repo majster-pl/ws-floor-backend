@@ -145,6 +145,7 @@ class EventController extends Controller
             'description' => $request->description,
             'customer' => Customer::find($request->customer_id)->customer_name,
             'others' => $request->others,
+            'key_location' => $request->key_location,
         ];
         
         $event->update($request->all());

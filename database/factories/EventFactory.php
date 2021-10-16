@@ -43,7 +43,7 @@ class EventFactory extends Factory
             'owning_branch' => Depot::where('owner_id', $company)->inRandomOrder()->first()->id,
             'spent_time' => 0,
             'status' => 'booked',
-            'free_text' => "#1. Initial comment",
+            'free_text' => "",
         ];
     }
 }
