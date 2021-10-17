@@ -28,38 +28,19 @@ class EventController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function index(Request $request)
+    // {
     public function index(Request $request)
     {
-
-        $from = $request->from;
-        if ($from === null) {
-            return response()->json([
-                'error' => [
-                    'message' => 'unsupported request, please provide start date [YYYY-MM-DD hh:mm] using "from" argument in request'
-                ]
-            ]);
-        }
-        $numberOfDays = $request->days;
-        if ($numberOfDays === null) {
-            return response()->json([
-                'error' => [
-                    'message' => 'unsupported request, please provide number of days [int] using "days" argument in request'
-                ]
-            ]);
-        }
+        $today_date = new DateTime();
+        $today_date = $today_date->format('Y-m-d');
         $depot = $request->depot;
-
-        $to = date('Y-m-d h:m', strtotime(date($from) . ' + ' . $request->days . ' days'));
-        // $events = Event::withTrashed()->whereBetween('booked_date', [$from, $to])
-        //     ->orderBy('events.booked_date_time')
-        //     ->get();
-        $events = Event::whereBetween('booked_date_time', [$from, $to])
-            ->where('owning_branch', $depot ? $depot : Auth::user()->default_branch)
-            ->orderBy('events.booked_date_time')
-            ->get();
-
-        return new EventCollection($events);
+        $events = Event::whereDate('booked_date_time', '=', [$today_date])
+            ->where([['owning_branch', $depot ? $depot : Auth::user()->default_branch]])
+            ->orderBy('events.booked_date_time')->get();
+        return $events;
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -69,8 +50,6 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $event = new Event;
         $event->asset_id = $request->asset_id;
         $event->customer_id = $request->customer_id;
@@ -147,12 +126,12 @@ class EventController extends Controller
             'others' => $request->others,
             'key_location' => $request->key_location,
         ];
-        
+
         $event->update($request->all());
 
         $notification = $request->notification;
         if ($notification) {
-            $email = Customer::find($event->customer_id)->email;            
+            $email = Customer::find($event->customer_id)->email;
             Mail::to($email)->send(new BookingChangesConfirmation($data));
         }
         broadcast(new UpdatedEvent())->toOthers();

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\api\v1\AssetController;
+use App\Http\Controllers\api\v1\BreakdownCounterController;
+use App\Http\Controllers\api\v1\CalendarController;
 use App\Http\Controllers\api\v1\CompanyController;
 use App\Http\Controllers\api\v1\DepotController;
 use App\Http\Controllers\api\v1\EventController;
@@ -45,6 +47,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('stats', StatsController::class);
     Route::apiResource('depot', DepotController::class);
     Route::apiResource('company', CompanyController::class);
+    Route::apiResource('calendar', CalendarController::class);
+    Route::apiResource('breakdown', BreakdownCounterController::class);
 
 
     // Route::get('/assets', function () {
