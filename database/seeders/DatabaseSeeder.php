@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'SWTV'
         ]);
         DB::table('companies')->insert([
-            'name' => 'Glenside'
+            'name' => 'Demo'
         ]);
 
         DB::table('depots')->insert([
@@ -41,12 +41,12 @@ class DatabaseSeeder extends Seeder
         ]);
 
         DB::table('depots')->insert([
-            'name' => 'Cardiff',
+            'name' => 'Bristol',
             'owner_id' => 2,
         ]);
 
         DB::table('depots')->insert([
-            'name' => 'Newport',
+            'name' => 'London',
             'owner_id' => 2,
         ]);
 
@@ -60,9 +60,9 @@ class DatabaseSeeder extends Seeder
 
 
         DB::table('users')->insert([
-            'name' => 'Test',
-            'email' => 'test@gmail.com',
-            'password' => Hash::make('password123'),
+            'name' => 'Demo User',
+            'email' => 'demo@demo.com',
+            'password' => Hash::make('demo123'),
             'owner_id' => 2,
             'default_branch' => 4,
         ]);

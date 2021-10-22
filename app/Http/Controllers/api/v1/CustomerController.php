@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\CustomerResource;
 use App\Http\Resources\CustomerCollection;
+use App\Models\Asset;
 use Symfony\Component\HttpFoundation\Response;
 
 
@@ -84,7 +85,6 @@ class CustomerController extends Controller
                 Response::HTTP_NOT_FOUND
             );
         }
-        
     }
 
     /**

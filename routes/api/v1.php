@@ -10,6 +10,8 @@ use App\Http\Controllers\api\v1\AssetController;
 use App\Http\Controllers\api\v1\BreakdownCounterController;
 use App\Http\Controllers\api\v1\CalendarController;
 use App\Http\Controllers\api\v1\CompanyController;
+use App\Http\Controllers\api\v1\CustomerAssetsController;
+use App\Http\Controllers\api\v1\CustomerBookingsController;
 use App\Http\Controllers\api\v1\DepotController;
 use App\Http\Controllers\api\v1\EventController;
 use App\Http\Controllers\api\v1\StatsController;
@@ -49,6 +51,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('company', CompanyController::class);
     Route::apiResource('calendar', CalendarController::class);
     Route::apiResource('breakdown', BreakdownCounterController::class);
+    Route::apiResource('customer_assets', CustomerAssetsController::class);
+    Route::apiResource('customer_bookings', CustomerBookingsController::class);
 
 
     // Route::get('/assets', function () {

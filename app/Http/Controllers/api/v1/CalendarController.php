@@ -42,7 +42,7 @@ class CalendarController extends Controller
         //     ->orderBy('events.booked_date_time')
         //     ->get();
         $events = Event::whereBetween('booked_date_time', [$from, $to])
-            ->where('owning_branch', $depot ? $depot : Auth::user()->default_branch)
+            ->where([['owning_branch', $depot ? $depot : Auth::user()->default_branch], ["owner_id", Auth::user()->id]])
             ->orderBy('events.booked_date_time')
             ->get();
 

@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\User;
 use App\Models\Asset;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CustomerResource extends JsonResource
@@ -27,7 +28,7 @@ class CustomerResource extends JsonResource
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'created_by_name' => User::find($this->created_by)->name,
-            'assets_total' => Asset::where('belongs_to', '=', $this->id)->count(),
+            'assets_total' => Asset::where([['belongs_to', '=', $this->id], ["owner_id", Auth::user()->id]])->count(),
             'status' => $this->status,
         ];
     }
