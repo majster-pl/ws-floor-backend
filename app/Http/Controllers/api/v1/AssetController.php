@@ -101,6 +101,7 @@ class AssetController extends Controller
         // $data = $request->all();
 
         $asset->update($request->all());
+        return new AssetResource($asset);
     }
 
     /**
