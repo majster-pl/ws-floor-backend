@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Controllers\api\v1\AssetController;
+use App\Http\Controllers\api\v1\AssetEventActiveController;
+use App\Http\Controllers\api\v1\AssetEventHistoryController;
+use App\Http\Controllers\api\v1\AssetHistoryController;
 use App\Http\Controllers\api\v1\BreakdownCounterController;
 use App\Http\Controllers\api\v1\CalendarController;
 use App\Http\Controllers\api\v1\CompanyController;
@@ -53,6 +56,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('breakdown', BreakdownCounterController::class);
     Route::apiResource('customer_assets', CustomerAssetsController::class);
     Route::apiResource('customer_bookings', CustomerBookingsController::class);
+    Route::apiResource('asset_event_history', AssetEventHistoryController::class);
+    Route::apiResource('asset_event_active', AssetEventActiveController::class);
 
 
     // Route::get('/assets', function () {
