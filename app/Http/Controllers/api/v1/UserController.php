@@ -83,7 +83,7 @@ class UserController extends Controller
             $error["message"] = "This operation is not allowed for demo user!";
             return response()->json(
                 $error,
-                Response::HTTP_UNAVAILABLE_FOR_LEGAL_REASONS
+                Response::HTTP_UNAUTHORIZED
             );
         }
         // sleep(3);
