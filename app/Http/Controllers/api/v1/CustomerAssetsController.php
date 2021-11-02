@@ -12,10 +12,10 @@ use App\Models\Customer;
 class CustomerAssetsController extends Controller
 {
 
-    public function show($id)
+    public function show($uuid)
     {
-        $asset_id = Customer::where("uuid", $id)->first()->id;
-        $assets = Asset::where([["belongs_to", $asset_id], ["owner_id", Auth::user()->id]])->get();
+        $customer_id = Customer::where("uuid", $uuid)->first()->id;
+        $assets = Asset::where([["belongs_to", $customer_id], ["owner_id", Auth::user()->id]])->get();
         return $assets;
     }
 }
