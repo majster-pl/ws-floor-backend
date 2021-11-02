@@ -74,7 +74,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $customer = Customer::where([['id', $id], ['owner_id', Auth::user()
+        $customer = Customer::where([['uuid', $id], ['owner_id', Auth::user()
             ->owner_id]])->first();
         if ($customer) {
             return new CustomerResource($customer);

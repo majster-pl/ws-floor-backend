@@ -19,4 +19,5 @@ class Customer extends Model
         'status',
         'owner_id',
     ];
+
 }

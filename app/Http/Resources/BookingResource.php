@@ -45,6 +45,7 @@ class BookingResource extends JsonResource
             'collected_at' => $this->collected_at,
             'activities' => $activities,
             'free_text' => $this->free_text,
+            'uuid' => $this->uuid,
         ];
     }
 

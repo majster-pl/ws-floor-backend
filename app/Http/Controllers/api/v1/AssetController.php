@@ -64,7 +64,7 @@ class AssetController extends Controller
      */
     public function show($id)
     {
-        $asset = Asset::where([['id', $id], ['owner_id', Auth::user()
+        $asset = Asset::where([['uuid', $id], ['owner_id', Auth::user()
             ->owner_id]])->first();
         if ($asset) {
             return new AssetResource($asset);
