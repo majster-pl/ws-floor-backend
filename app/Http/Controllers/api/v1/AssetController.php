@@ -95,11 +95,9 @@ class AssetController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $asset = Asset::find($id);
-        // $data = $request->all();
-
+        $asset = Asset::where("uuid", $uuid)->first();
         $asset->update($request->all());
         return new AssetResource($asset);
     }

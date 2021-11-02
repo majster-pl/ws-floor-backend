@@ -105,11 +105,12 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $uuid)
     {
-        $customer = Customer::find($id);
+        $customer = Customer::where("uuid", $uuid)->first();
 
         $customer->update($request->all());
+        // return $customer;
     }
 
     /**
