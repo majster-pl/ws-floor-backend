@@ -19,6 +19,7 @@ use App\Http\Controllers\api\v1\DepotController;
 use App\Http\Controllers\api\v1\EventController;
 use App\Http\Controllers\api\v1\StatsController;
 use App\Http\Controllers\api\v1\CustomerController;
+use App\Http\Controllers\api\v1\UserController;
 use App\Http\Controllers\api\v1\WorkshopController;
 use App\Models\Company;
 
@@ -58,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('customer_bookings', CustomerBookingsController::class);
     Route::apiResource('asset_event_history', AssetEventHistoryController::class);
     Route::apiResource('asset_event_active', AssetEventActiveController::class);
+    Route::apiResource('user', UserController::class);
 
 
     // Route::get('/assets', function () {

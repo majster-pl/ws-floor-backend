@@ -21,6 +21,7 @@ class User extends Authenticatable
         'email',
         'password',
         'belongs_to_company',
+        'default_branch',
     ];
 
     /**
