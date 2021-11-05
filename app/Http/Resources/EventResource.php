@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use DateTime;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,12 +22,14 @@ class EventResource extends JsonResource
         // $date_now = new DateTime(date('Y-m-d h:i'));
         return [
             'event_id' => $this->id,
+            'id' => $this->id,
             'customer_name' => $this->customer->customer_name,
             'customer_id' => $this->customer->id,
             'reg' => $this->asset->reg,
             'breakdown' => $this->breakdown,
             'asset_id' => $this->asset->id,
             'booked_date_time' => $this->booked_date_time,
+            'created_at' => $this->created_at,
             'description' => $this->description,
             'special_instructions' => $this->special_instructions,
             'others' => $this->others,
@@ -43,8 +46,10 @@ class EventResource extends JsonResource
             'collected_at' => $this->collected_at,
             'activities' => $activities,
             'free_text' => $this->free_text,
+            'uuid' => $this->uuid,
         ];
     }
+    public static $wrap = 'event';
 
     public function with($request)
     {

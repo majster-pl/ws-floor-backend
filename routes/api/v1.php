@@ -2,26 +2,27 @@
 
 use App\Models\Asset;
 use App\Models\Event;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\api\v1\UserController;
 use App\Http\Controllers\api\v1\AssetController;
-use App\Http\Controllers\api\v1\AssetEventActiveController;
-use App\Http\Controllers\api\v1\AssetEventHistoryController;
-use App\Http\Controllers\api\v1\AssetHistoryController;
-use App\Http\Controllers\api\v1\BreakdownCounterController;
-use App\Http\Controllers\api\v1\CalendarController;
-use App\Http\Controllers\api\v1\CompanyController;
-use App\Http\Controllers\api\v1\CustomerAssetsController;
-use App\Http\Controllers\api\v1\CustomerBookingsController;
 use App\Http\Controllers\api\v1\DepotController;
 use App\Http\Controllers\api\v1\EventController;
 use App\Http\Controllers\api\v1\StatsController;
+use App\Http\Controllers\api\v1\CompanyController;
+use App\Http\Controllers\api\v1\CalendarController;
 use App\Http\Controllers\api\v1\CustomerController;
-use App\Http\Controllers\api\v1\UserController;
 use App\Http\Controllers\api\v1\WorkshopController;
-use App\Models\Company;
+use App\Http\Controllers\api\v1\EventUuidController;
+use App\Http\Controllers\api\v1\AssetHistoryController;
+use App\Http\Controllers\api\v1\CustomerAssetsController;
+use App\Http\Controllers\api\v1\AssetEventActiveController;
+use App\Http\Controllers\api\v1\BreakdownCounterController;
+use App\Http\Controllers\api\v1\CustomerBookingsController;
+use App\Http\Controllers\api\v1\AssetEventHistoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,6 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('assets', AssetController::class);
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('events', EventController::class);
+    Route::apiResource('event_uuid', EventUuidController::class);
     Route::apiResource('workshop', WorkshopController::class);
     Route::apiResource('stats', StatsController::class);
     Route::apiResource('depot', DepotController::class);
