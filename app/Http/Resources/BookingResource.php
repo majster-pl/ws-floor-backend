@@ -46,6 +46,8 @@ class BookingResource extends JsonResource
             'activities' => $activities,
             'free_text' => $this->free_text,
             'uuid' => $this->uuid,
+            'deleted' => $this->deleted_at ? true : false,
+            'deleted_at' => $this->deleted_at,
         ];
     }
 
