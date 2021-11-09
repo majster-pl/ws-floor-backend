@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\EventResource;
 use App\Mail\BookingChangesConfirmation;
+use Symfony\Component\HttpFoundation\Response;
+
 
 class EventUuidController extends Controller
 {
@@ -53,9 +55,12 @@ class EventUuidController extends Controller
      */
     public function show($uuid)
     {
-        $event = Event::where("uuid", $uuid)->first();
-        return new EventResource($event);
-        //
+        $event = Event::where("uuid", $uuid)->withTrashed()->first();
+        if (isset($event->id)) {
+            return new EventResource($event);
+        } else {
+            return response()->json(['error' => 'Event Not Found!'], Response::HTTP_NOT_FOUND);
+        }
     }
     /**
      * Show the form for editing the specified resource.
