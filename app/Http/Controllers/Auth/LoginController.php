@@ -24,24 +24,9 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
-    // protected function login()
-    // {
-    //     if (Auth::check()) {
-    //         return new Response("Allready logged in!", 200);
-    //     }
-    // }
-
     protected function authenticated(Request $request, $user)
     {
-        // return new Response(["User not authenticated"], 401);
-        $user = Auth::user();
-        $id = Auth::id();
-        if (isset($id)) {
-            return new Response($user, 200);
-        } else {
-            return new Response(["User not authenticated"], 401);
-        }
-
+        return new Response($user, 200);
     }
 
     // function to hangle logout request
@@ -50,9 +35,9 @@ class LoginController extends Controller
         if (Auth::check()) {
             $this->guard()->logout();
             $request->session()->invalidate();
-            return new Response(["You have been successfully logged out"], 200);
+            return new Response(["message" => "You have been successfully logged out"], 200);
         } else {
-            return new Response(["User not authenticated"], 401);
+            return new Response(["message" => "You are not authenticated"], 401);
         }
     }
 
