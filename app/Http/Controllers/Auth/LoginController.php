@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -21,12 +24,45 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+    // protected function login()
+    // {
+    //     if (Auth::check()) {
+    //         return new Response("Allready logged in!", 200);
+    //     }
+    // }
+
+    protected function authenticated(Request $request, $user)
+    {
+        // return new Response(["User not authenticated"], 401);
+        $user = Auth::user();
+        $id = Auth::id();
+        if (isset($id)) {
+            return new Response($user, 200);
+        } else {
+            return new Response(["User not authenticated"], 401);
+        }
+
+    }
+
+    // function to hangle logout request
+    public function logout(Request $request)
+    {
+        if (Auth::check()) {
+            $this->guard()->logout();
+            $request->session()->invalidate();
+            return new Response(["You have been successfully logged out"], 200);
+        } else {
+            return new Response(["User not authenticated"], 401);
+        }
+    }
+
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // protected $redirectTo = RouteServiceProvider::HOME;
+
 
     /**
      * Create a new controller instance.

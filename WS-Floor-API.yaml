@@ -1,0 +1,224 @@
+openapi: 3.1.0
+info:
+  title: WS-Floor API
+  version: '1.0'
+  description: |-
+    This API was creates as a side project to power front end application and not to be exposed to public.
+    This is cookie based authentication and will only work when accessed from the same host as API.
+  summary: API for WS-Floor webapp
+  contact:
+    name: Szymon Waliczek
+    url: 'https://github.com/majster-pl'
+    email: waliczek.szymon@gmail.com
+  license:
+    url: 'https://opensource.org/licenses/MIT'
+    name: MIT
+servers:
+  - url: 'http://127.0.0.1:8000'
+    description: localhost
+paths:
+  /api/v1/logged-in:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                x-examples:
+                  example-1:
+                    id: 2
+                    name: Demo User
+                    email: demo@demo.com
+                    email_verified_at: null
+                    owner_id: 2
+                    default_branch: 4
+                    created_at: null
+                    updated_at: null
+                    logged-in: true
+                    company: Demo
+                properties:
+                  id:
+                    type: number
+                  name:
+                    type: string
+                    minLength: 1
+                  email:
+                    type: string
+                    minLength: 1
+                  email_verified_at:
+                    type:
+                      - string
+                      - 'null'
+                  owner_id:
+                    type: number
+                  default_branch:
+                    type: number
+                  created_at:
+                    type:
+                      - string
+                      - 'null'
+                  updated_at:
+                    type:
+                      - string
+                      - 'null'
+                  logged-in:
+                    type: boolean
+                  company:
+                    type: string
+                    minLength: 1
+                required:
+                  - id
+                  - name
+                  - email
+                  - owner_id
+                  - default_branch
+                  - logged-in
+                  - company
+              examples:
+                example-Demo:
+                  value:
+                    id: 0
+                    name: string
+                    email: string
+                    email_verified_at: null
+                    owner_id: 0
+                    default_branch: 0
+                    created_at: null
+                    updated_at: null
+                    logged-in: true
+                    company: string
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              examples:
+                example-Demo:
+                  value:
+                    message: Unauthenticated.
+      operationId: get-api-v1-logged-in
+      description: When called it will return if user is logged in.
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Accept
+          description: application/json
+        - schema:
+            type: string
+          in: header
+          name: Referer
+          description: api-ws-floor.waliczek.org
+  /login:
+    post:
+      summary: ''
+      operationId: post-login
+      responses:
+        '200':
+          description: OK
+        '422':
+          description: Unprocessable Entity (WebDAV)
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  errors:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                      password:
+                        type: string
+              examples:
+                example-1:
+                  value:
+                    message: The given data was invalid.
+                    errors:
+                      email:
+                        - These credentials do not match our records.
+      description: To make sure login
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Accept
+          description: application/json
+        - schema:
+            type: string
+          in: header
+          name: X-XSRF-TOKEN
+          description: '{{xsrf-cookie}}'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+            examples:
+              Example-Demo:
+                value:
+                  email: demo@demo.com
+                  password: demo123
+        description: ''
+    parameters: []
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      examples:
+        - id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified
+  securitySchemes: {}
+security:
+  - API Key - 1: []
