@@ -9,17 +9,48 @@
 ws-floor-backend is a API service based on Laravel. It is build to serve backend for [ws-floor](https://ws-floor.waliczek.org) application. It has been build to help managing small and medium wekshop garages with focuse on updating customers on repair progress via emails. 
 
 ## How to use
-#### Clone repo:
+### Clone repo:
 `git clone https://github.com/majster-pl/ws-floor-backend.git`
 
-#### Create .env file:
+### Create .env file:
 `cp .env.example .env`
 
-#### Generate key
-`php artisan key:generate`
+### Generate APP_KEY
+Generate application key using command below and enter generated key to .env file.
 
-#### Edit .env file: 
-edit database name, password etc.
+`php artisan key:generate` 
+
+### Setup .env file
+
+Change below in .env file:
+
+	APP_KEY='read above how to generate app key'
+	APP_ENV=local 'change to production if necessary'
+	DB_DATABASE='database name'
+	DB_USERNAME='database user name'
+	DB_PASSWORD='passowrd to database'
+	# Pusher creditionals, can be found here: https://pusher.com/
+	PUSHER_APP_ID=
+    PUSHER_APP_KEY=
+	PUSHER_APP_SECRET=
+	PUSHER_APP_CLUSTER=mt1
+	# Make sure you set your domain name where you want to run the API server, if local set to localhost if elsewhere enter your IP or domain name.
+	SESSION_DOMAIN='your_domain.com (without quotes)'
+	# [Mail setup] - to make sure notification emails are sent make sure you set mail server setting below
+	MAIL_MAILER=
+	MAIL_HOST=
+	MAIL_PORT=
+	MAIL_USERNAME=
+	MAIL_PASSWORD=
+	MAIL_ENCRYPTION=
+	MAIL_FROM_ADDRESS=
+	MAIL_FROM_NAME="${APP_NAME}"
+
+## API Settings
+You can change session lifetime, timezone by changing below in .env file
+
+    SESSION_LIFETIME=30
+    TIMEZONE=(change if different then Europe/London)
 
 #### Migrate
 `php artisan migrate`

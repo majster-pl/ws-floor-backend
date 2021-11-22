@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\EventCollection;
 use App\Mail\BookingChangesConfirmation;
+use App\Models\Company;
+use App\Models\Depot;
 use Symfony\Component\HttpFoundation\Response;
 
 class EventController extends Controller
@@ -69,23 +71,26 @@ class EventController extends Controller
         $event->created_by = auth()->user()->id;
         $event->uuid = Str::uuid()->toString();
 
-        $notification = $event->notification;
+        $notification = $request->notification;
 
         $event = $event->save();
 
         $data = [
-            'booked_date_time' => $request->booked_date_time,
+            'booked_date_time' => date_format(date_create($request->booked_date_time),"d/m/Y H:i"),
             'reg' => Asset::find($request->asset_id)->reg,
             'description' => $request->description,
+            'waiting' => $request->waiting,
             'customer' => Customer::find($request->customer_id)->customer_name,
             'others' => $request->others,
+            'company_name' => Company::where("id", Depot::where("id", $request->depot)->first()->owner_id)->first()->name,
+            'branch' => Depot::where("id", $request->depot)->first()->name,
         ];
 
         if ($notification) {
             $email = Customer::find($request->customer_id)->email;
             Mail::to($email)->send(new BookingConfirmation($data));
         }
-
+            
 
         broadcast(new NewEvent())->toOthers();
 
