@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\EventResource;
 use App\Http\Resources\EventCollection;
+use App\Mail\BookingArrivalConfirmation;
 use App\Mail\BookingChangesConfirmation;
+use App\Mail\BookingDailyUpdate;
 use App\Models\Company;
 use App\Models\Depot;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,7 +78,7 @@ class EventController extends Controller
         $event = $event->save();
 
         $data = [
-            'booked_date_time' => date_format(date_create($request->booked_date_time),"d/m/Y H:i"),
+            'booked_date_time' => date_format(date_create($request->booked_date_time), "d/m/Y H:i"),
             'reg' => Asset::find($request->asset_id)->reg,
             'description' => $request->description,
             'waiting' => $request->waiting,
@@ -84,13 +86,26 @@ class EventController extends Controller
             'others' => $request->others,
             'company_name' => Company::where("id", Depot::where("id", $request->depot)->first()->owner_id)->first()->name,
             'branch' => Depot::where("id", $request->depot)->first()->name,
+            'odometer_in' => $request->odometer_in,
+            'special_instructions' => $request->special_instructions,
         ];
 
         if ($notification) {
-            $email = Customer::find($request->customer_id)->email;
-            Mail::to($email)->send(new BookingConfirmation($data));
+            switch ($request->status) {
+                case 'awaiting_labour':
+                    break;
+
+                case 'booked':
+                    $email = Customer::find($request->customer_id)->email;
+                    Mail::to($email)->send(new BookingConfirmation($data));
+                    break;
+
+                default:
+                    break;
+            }
         }
-            
+
+
 
         broadcast(new NewEvent())->toOthers();
 
@@ -123,22 +138,55 @@ class EventController extends Controller
 
         $event = Event::find($id);
 
+        // $data = [
+        //     'booked_date_time' => $request->booked_date_time,
+        //     'reg' => Asset::find($request->asset_id)->reg,
+        //     'description' => $request->description,
+        //     'customer' => Customer::find($request->customer_id)->customer_name,
+        //     'others' => $request->others,
+        //     'key_location' => $request->key_location,
+        // ];
+
+
         $data = [
-            'booked_date_time' => $request->booked_date_time,
+            'booked_date_time' => date_format(date_create($request->booked_date_time), "d/m/Y H:i"),
             'reg' => Asset::find($request->asset_id)->reg,
             'description' => $request->description,
+            'waiting' => $request->waiting,
             'customer' => Customer::find($request->customer_id)->customer_name,
             'others' => $request->others,
-            'key_location' => $request->key_location,
+            'company_name' => Company::where("id", $event->owner_id)->first()->name,
+            'branch' => Depot::where("id", $event->owning_branch)->first()->name,
+            'odometer_in' => $request->odometer_in,
+            'special_instructions' => $request->special_instructions,
+            'arrived_date' => date_format(date_create($request->arrived_date), "d/m/Y H:i"),
+            'free_text' => $request->free_text,
         ];
+
+        // check if status updated, if not user to received different email
+        $status_update = ($request->status !== $event->status ? false : true);
 
         $event->update($request->all());
 
-        $notification = $request->notification;
-        if ($notification) {
-            $email = Customer::find($event->customer_id)->email;
-            Mail::to($email)->send(new BookingChangesConfirmation($data));
+        if ($request->notification) {
+            if ($status_update) {
+                $email = Customer::find($request->customer_id)->email;
+                Mail::to($email)->send(new BookingDailyUpdate($data));
+            } else {
+                switch ($request->status) {
+                    case 'awaiting_labour':
+                        $email = Customer::find($request->customer_id)->email;
+                        Mail::to($email)->send(new BookingArrivalConfirmation($data));
+                        break;
+
+                    default:
+                        $email = Customer::find($event->customer_id)->email;
+                        Mail::to($email)->send(new BookingChangesConfirmation($data));
+                        break;
+                }
+            }
         }
+
         broadcast(new UpdatedEvent())->toOthers();
 
         return $event;

@@ -10,6 +10,8 @@ Booked for: <b>{{ $data['description'] }}</b><br>
 Others: <b>{{ $data['others'] }}</b>
 @endif
 <br><br>
+{{-- TEST: <b>{{ $data['test'] }}</b><br> --}}
+
 {{-- @component('mail::button', ['url' => ''])
 Confirm
 @endcomponent --}}
