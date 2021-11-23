@@ -7,16 +7,16 @@ Reg: <b>{{ $data['reg'] }} </b><br>
 
 <b style="color: green">Updates:</b><br><br>
 @if (isset($updated["booked_date_time"]))
-<b>Booking Date</b>: <strike>{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</strike> -> <label style="color: green">{{ date_format(date_create($updated['booked_date_time']), "d/m/Y H:i") }}</label><br>
+<b>Booking Date</b>: <strike style="color: red">{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</strike> -> <label style="color: green">{{ date_format(date_create($updated['booked_date_time']), "d/m/Y H:i") }}</label><br>
 @endif
 @if (isset($updated["description"]))
-<b>Description</b>: <strike>{{ $data['description'] }}</strike> -> <label style="color: green">{{ $updated['description'] }}</label><br>
+<b>Description</b>: <strike style="color: red">{{ $data['description'] }}</strike> -> <label style="color: green">{{ $updated['description'] }}</label><br>
 @endif
 @if (isset($updated["others"]))
-<b>Others</b>: <strike>{{ $data['others'] }}</strike> -> <label style="color: green">{{ $updated['others'] }}</label><br>
+<b>Others</b>: <strike style="color: red">{{ $data['others'] }}</strike> -> <label style="color: green">{{ $updated['others'] }}</label><br>
 @endif
 @if (isset($updated["allowed_time"]))
-<b>Allowed Time</b>: <strike>{{ $data['allowed_time'] }}h</strike> -> <label style="color: green">{{ $updated['allowed_time'] }}h</label><br>
+<b>Allowed Time</b>: <strike style="color: red">{{ $data['allowed_time'] }}h</strike> -> <label style="color: green">{{ $updated['allowed_time'] }}h</label><br>
 @endif
 @if (strlen($data["free_text"]) > 0)
 <b>Job Notes:</b>

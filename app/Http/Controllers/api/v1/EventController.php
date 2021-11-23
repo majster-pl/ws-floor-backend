@@ -149,51 +149,57 @@ class EventController extends Controller
         function getArrayOfUpdatedValues($request, $event)
         {
             $request_arr = array_intersect_key($request->post(), $event->toArray());
-            $diff = array_diff_assoc($request_arr,$event->toArray());
+            $diff = array_diff_assoc($request_arr, $event->toArray());
             return $diff;
         }
 
         $updated = getArrayOfUpdatedValues($request, $event);
 
         $data = [
+            'status' => $event->status,
             'booked_date_time' => $event->booked_date_time,
             'reg' => Asset::find($request->asset_id)->reg,
             'allowed_time' => $event->allowed_time,
             'description' => $event->description,
-            'waiting' => $request->waiting,
+            'waiting' => $event->waiting,
             'customer' => Customer::find($request->customer_id)->customer_name,
-            'others' => $request->others,
+            'others' => $event->others,
             'company_name' => Company::where("id", $event->owner_id)->first()->name,
             'branch' => Depot::where("id", $event->owning_branch)->first()->name,
-            'odometer_in' => $request->odometer_in,
-            'special_instructions' => $request->special_instructions,
+            'odometer_in' => $event->odometer_in,
+            'special_instructions' => $event->special_instructions,
             'arrived_date' => date_format(date_create($request->arrived_date), "d/m/Y H:i"),
-            'free_text' => $request->free_text,
+            'free_text' => $event->free_text,
             'test2' => json_encode(getArrayOfUpdatedValues($request, $event)),
             // 'test' => json_encode(array_diff_assoc($event->toArray(), $request->post())),
         ];
 
         // check if status updated, if not user to received different email
-        $status_update = ($request->status === $event->status ? false : true);
+        if (isset($updated['free_text']) && count($updated) === 1) {
+            $daily_update = true;
+        } else {
+            $daily_update = false;
+        }
 
         $event->update($request->all());
 
+        // if notification enabled in request send relavent email.
         if ($request->notification) {
-            if ($status_update) {
+            if ($daily_update) {
+                $email = Customer::find($request->customer_id)->email;
+                Mail::to($email)->send(new BookingDailyUpdate($data, $updated));
+            } else {
                 switch ($request->status) {
                     case 'awaiting_labour':
                         $email = Customer::find($request->customer_id)->email;
-                        Mail::to($email)->send(new BookingArrivalConfirmation($data));
+                        Mail::to($email)->send(new BookingArrivalConfirmation($data, $updated));
                         break;
 
                     default:
                         $email = Customer::find($event->customer_id)->email;
-                        Mail::to($email)->send(new BookingChangesConfirmation($data));
+                        Mail::to($email)->send(new BookingChangesConfirmation($data, $updated));
                         break;
                 }
-            } else {
-                $email = Customer::find($request->customer_id)->email;
-                Mail::to($email)->send(new BookingDailyUpdate($data, $updated));
             }
         }
 

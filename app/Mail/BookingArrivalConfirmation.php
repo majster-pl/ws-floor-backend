@@ -16,9 +16,10 @@ class BookingArrivalConfirmation extends Mailable
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data, $updated)
     {
         $this->data = $data;
+        $this->updated = $updated;
     }
 
     /**
@@ -29,7 +30,7 @@ class BookingArrivalConfirmation extends Mailable
     public function build()
     {
         return $this->markdown('emails.bookingArrivalConfirmation')
-        ->subject('Status updated for - ' . $this->data['reg']. ' [Arrived]')
-        ->with('data', $this->data);
+            ->subject('New Status [Arrived] - ' . $this->data['reg'])
+            ->with('data', $this->data)->with('updated', $this->updated);
     }
 }

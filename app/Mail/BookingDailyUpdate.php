@@ -10,10 +10,6 @@ use Illuminate\Queue\SerializesModels;
 class BookingDailyUpdate extends Mailable
 {
     use Queueable, SerializesModels;
-
-    public $updated;
-    public $data;
-
     /**
      * Create a new message instance.
      *
@@ -33,7 +29,7 @@ class BookingDailyUpdate extends Mailable
     public function build()
     {
         return $this->markdown('emails.bookingDailyUpdate')
-            ->subject('Daily updated for - ' . $this->data['reg'])
+            ->subject('Daily update for - ' . $this->data['reg'])
             ->with('data', $this->data)->with('updated', $this->updated);
     }
 }
