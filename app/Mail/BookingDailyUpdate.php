@@ -11,14 +11,18 @@ class BookingDailyUpdate extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $updated;
+    public $data;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($data, $updated)
     {
         $this->data = $data;
+        $this->updated = $updated;
     }
 
     /**
@@ -30,6 +34,6 @@ class BookingDailyUpdate extends Mailable
     {
         return $this->markdown('emails.bookingDailyUpdate')
             ->subject('Daily updated for - ' . $this->data['reg'])
-            ->with('data', $this->data);
+            ->with('data', $this->data)->with('updated', $this->updated);
     }
 }

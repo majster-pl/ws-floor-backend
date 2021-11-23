@@ -138,7 +138,7 @@ class EventController extends Controller
 
         $event = Event::find($id);
 
-        // $data = [
+        // $data3 = [
         //     'booked_date_time' => $request->booked_date_time,
         //     'reg' => Asset::find($request->asset_id)->reg,
         //     'description' => $request->description,
@@ -146,12 +146,20 @@ class EventController extends Controller
         //     'others' => $request->others,
         //     'key_location' => $request->key_location,
         // ];
+        function getArrayOfUpdatedValues($request, $event)
+        {
+            $request_arr = array_intersect_key($request->post(), $event->toArray());
+            $diff = array_diff_assoc($request_arr,$event->toArray());
+            return $diff;
+        }
 
+        $updated = getArrayOfUpdatedValues($request, $event);
 
         $data = [
-            'booked_date_time' => date_format(date_create($request->booked_date_time), "d/m/Y H:i"),
+            'booked_date_time' => $event->booked_date_time,
             'reg' => Asset::find($request->asset_id)->reg,
-            'description' => $request->description,
+            'allowed_time' => $event->allowed_time,
+            'description' => $event->description,
             'waiting' => $request->waiting,
             'customer' => Customer::find($request->customer_id)->customer_name,
             'others' => $request->others,
@@ -161,18 +169,17 @@ class EventController extends Controller
             'special_instructions' => $request->special_instructions,
             'arrived_date' => date_format(date_create($request->arrived_date), "d/m/Y H:i"),
             'free_text' => $request->free_text,
+            'test2' => json_encode(getArrayOfUpdatedValues($request, $event)),
+            // 'test' => json_encode(array_diff_assoc($event->toArray(), $request->post())),
         ];
 
         // check if status updated, if not user to received different email
-        $status_update = ($request->status !== $event->status ? false : true);
+        $status_update = ($request->status === $event->status ? false : true);
 
         $event->update($request->all());
 
         if ($request->notification) {
             if ($status_update) {
-                $email = Customer::find($request->customer_id)->email;
-                Mail::to($email)->send(new BookingDailyUpdate($data));
-            } else {
                 switch ($request->status) {
                     case 'awaiting_labour':
                         $email = Customer::find($request->customer_id)->email;
@@ -184,6 +191,9 @@ class EventController extends Controller
                         Mail::to($email)->send(new BookingChangesConfirmation($data));
                         break;
                 }
+            } else {
+                $email = Customer::find($request->customer_id)->email;
+                Mail::to($email)->send(new BookingDailyUpdate($data, $updated));
             }
         }
 

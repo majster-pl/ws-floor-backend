@@ -4,11 +4,7 @@
 This is confirmation email of your booking with <b style="color: #fa9836">{{ $data['company_name'] }}</b>.<br><br>
 Reg: <b>{{ $data['reg'] }} </b><br>
 Date: <b>{{ $data['booked_date_time'] }}</b> <br>
-@if (isset($data["waiting"]))
-Waiting: <b>Yes</b><br><br>
-@else
-Waiting: <b>No</b><br><br>
-@endif
+Waiting: <b>{{$data['waiting'] ? "Yes" : "No"}}</b><br><br>
 Location: <b>{{ $data['branch'] }}</b><br>
 Description: <b>{{ $data['description'] }}</b><br>
 @if (isset($data["others"]))
