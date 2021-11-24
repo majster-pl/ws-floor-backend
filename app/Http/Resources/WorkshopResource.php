@@ -42,6 +42,7 @@ class WorkshopResource extends JsonResource
             'allowed_time' => $this->allowed_time,
             'status' => $this->status,
             'arrived_date' => $this->arrived_date,
+            'updated_at' => $this->updated_at,
             'age' => $date_now->diff($date_arrived)->format('%a'),
         ];
     }
