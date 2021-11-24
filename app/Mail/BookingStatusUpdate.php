@@ -7,10 +7,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class BookingArrivalConfirmation extends Mailable
+class BookingStatusUpdate extends Mailable
 {
     use Queueable, SerializesModels;
-
     /**
      * Create a new message instance.
      *
@@ -29,8 +28,8 @@ class BookingArrivalConfirmation extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.bookingArrivalConfirmation')
-            ->subject('Status update [Arrived] - ' . $this->data['reg'])
+        return $this->markdown('emails.bookingStatusUpdate')
+            ->subject('Status update [' . ucfirst(str_replace("_", " ", $this->updated['status'])) . '] - ' . $this->data['reg'])
             ->with('data', $this->data)->with('updated', $this->updated);
     }
 }

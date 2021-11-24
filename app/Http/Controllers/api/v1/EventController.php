@@ -21,6 +21,7 @@ use App\Http\Resources\EventCollection;
 use App\Mail\BookingArrivalConfirmation;
 use App\Mail\BookingChangesConfirmation;
 use App\Mail\BookingDailyUpdate;
+use App\Mail\BookingStatusUpdate;
 use App\Models\Company;
 use App\Models\Depot;
 use Symfony\Component\HttpFoundation\Response;
@@ -78,6 +79,7 @@ class EventController extends Controller
         $event = $event->save();
 
         $data = [
+            'user' => Auth::user()->name,
             'booked_date_time' => date_format(date_create($request->booked_date_time), "d/m/Y H:i"),
             'reg' => Asset::find($request->asset_id)->reg,
             'description' => $request->description,
@@ -134,18 +136,8 @@ class EventController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // $event = Event::find($id)->update($request);
-
         $event = Event::find($id);
 
-        // $data3 = [
-        //     'booked_date_time' => $request->booked_date_time,
-        //     'reg' => Asset::find($request->asset_id)->reg,
-        //     'description' => $request->description,
-        //     'customer' => Customer::find($request->customer_id)->customer_name,
-        //     'others' => $request->others,
-        //     'key_location' => $request->key_location,
-        // ];
         function getArrayOfUpdatedValues($request, $event)
         {
             $request_arr = array_intersect_key($request->post(), $event->toArray());
@@ -156,6 +148,7 @@ class EventController extends Controller
         $updated = getArrayOfUpdatedValues($request, $event);
 
         $data = [
+            'user' => Auth::user()->name,
             'status' => $event->status,
             'booked_date_time' => $event->booked_date_time,
             'reg' => Asset::find($request->asset_id)->reg,
@@ -170,41 +163,53 @@ class EventController extends Controller
             'special_instructions' => $event->special_instructions,
             'arrived_date' => date_format(date_create($request->arrived_date), "d/m/Y H:i"),
             'free_text' => $event->free_text,
-            'test2' => json_encode(getArrayOfUpdatedValues($request, $event)),
-            // 'test' => json_encode(array_diff_assoc($event->toArray(), $request->post())),
         ];
 
         // check if status updated, if not user to received different email
-        if (isset($updated['free_text']) && count($updated) === 1) {
-            $daily_update = true;
-        } else {
-            $daily_update = false;
-        }
-
-        $event->update($request->all());
+        $daily_update = (isset($updated['free_text']) && count($updated) === 1);
+        $status_update = ($event->status !== $request->status);
 
         // if notification enabled in request send relavent email.
         if ($request->notification) {
             if ($daily_update) {
-                $email = Customer::find($request->customer_id)->email;
-                Mail::to($email)->send(new BookingDailyUpdate($data, $updated));
+                $new_email = new BookingDailyUpdate($data, $updated);
             } else {
                 switch ($request->status) {
                     case 'awaiting_labour':
-                        $email = Customer::find($request->customer_id)->email;
-                        Mail::to($email)->send(new BookingArrivalConfirmation($data, $updated));
+                        if ($status_update) {
+                            $new_email = new BookingArrivalConfirmation($data, $updated);
+                        } else {
+                            $new_email = new BookingChangesConfirmation($data, $updated);
+                        }
+                        break;
+
+                    case 'planned':
+                    case 'work_in_progress':
+                    case 'awaiting_estimates':
+                    case 'awaiting_part':
+                    case 'awaiting_authorisation':
+                    case 'awaiting_qc':
+                    case 'at_3rd_party':
+                    case 'completed':
+                        if ($status_update) {
+                            $new_email = new BookingStatusUpdate($data, $updated);
+                        } else {
+                            $new_email = new BookingChangesConfirmation($data, $updated);
+                        }
                         break;
 
                     default:
-                        $email = Customer::find($event->customer_id)->email;
-                        Mail::to($email)->send(new BookingChangesConfirmation($data, $updated));
+                        $new_email = new BookingChangesConfirmation($data, $updated);
                         break;
                 }
+                // send email
+                $email = Customer::find($request->customer_id)->email;
+                Mail::to($email)->send($new_email);
             }
         }
 
+        $event->update($request->all());
         broadcast(new UpdatedEvent())->toOthers();
-
         return $event;
     }
 

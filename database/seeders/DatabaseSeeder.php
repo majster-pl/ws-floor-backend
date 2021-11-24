@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'SWTV'
         ]);
         DB::table('companies')->insert([
-            'name' => 'Demo'
+            'name' => 'Company A'
         ]);
 
         DB::table('depots')->insert([

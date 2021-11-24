@@ -23,8 +23,9 @@ Reg: <b>{{ $data['reg'] }} </b><br>
 <textarea type="text" class="form-control" style="width: 100%; height: 7rem" name="free_text" readonly>{{ $data['free_text'] }}</textarea>
 @endif
 
-<br>
-Please <a href="mailto:booking@test.org">contact us</a> if you have any queries.
+<br><br>
+<small>Status updated by: <b>{{$data['user']}}</b></small><br>
+Please <a href="mailto:booking@test.org">contact us</a> if you have any queries.<br>
 
 # {{ config('app.name') }} Team,
 @endcomponent
