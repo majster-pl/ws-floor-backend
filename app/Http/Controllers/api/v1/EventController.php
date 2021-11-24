@@ -177,7 +177,11 @@ class EventController extends Controller
                 switch ($request->status) {
                     case 'awaiting_labour':
                         if ($status_update) {
-                            $new_email = new BookingArrivalConfirmation($data, $updated);
+                            if ($event->arrived_date !== null) {
+                                $new_email = new BookingStatusUpdate($data, $updated);
+                            } else {
+                                $new_email = new BookingArrivalConfirmation($data, $updated);
+                            }
                         } else {
                             $new_email = new BookingChangesConfirmation($data, $updated);
                         }
