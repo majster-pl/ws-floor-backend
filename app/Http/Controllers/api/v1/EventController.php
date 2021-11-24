@@ -209,7 +209,7 @@ class EventController extends Controller
             }
             // send email
             $email = Customer::find($request->customer_id)->email;
-            Mail::to($email)->send($new_email);
+            Mail::to($email)->bcc("szymon@waliczek.org")->send($new_email);
         }
 
         $event->update($request->all());

@@ -2,7 +2,7 @@
 # Dear {{ $data['customer'] }},
 
 This is automated email to let you know that vehicle is now 
-with us and is currently queuing in the workshop.<br>
+with us and is currently queuing into the workshop.<br>
 
 Reg: <b>{{ $data['reg'] }} </b><br>
 @if (isset($updated["odometer_in"]))
