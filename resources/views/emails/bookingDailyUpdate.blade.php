@@ -18,7 +18,10 @@ Reg: <b>{{ $data['reg'] }} </b><br>
 @if (isset($updated["allowed_time"]))
 <b>Allowed Time</b>: <strike style="color: red">{{ $data['allowed_time'] }}h</strike> -> <label style="color: green">{{ $updated['allowed_time'] }}h</label><br>
 @endif
-@if (strlen($data["free_text"]) > 0)
+@if (isset($updated["free_text"]))
+<b>Job Notes:</b>
+<textarea type="text" class="form-control" style="width: 100%; height: 7rem" name="free_text" readonly>{{ $updated['free_text'] }}</textarea>
+@elseif (strlen($data["free_text"]) > 0)
 <b>Job Notes:</b>
 <textarea type="text" class="form-control" style="width: 100%; height: 7rem" name="free_text" readonly>{{ $data['free_text'] }}</textarea>
 @endif
