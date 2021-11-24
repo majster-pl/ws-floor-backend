@@ -206,10 +206,10 @@ class EventController extends Controller
                         $new_email = new BookingChangesConfirmation($data, $updated);
                         break;
                 }
-                // send email
-                $email = Customer::find($request->customer_id)->email;
-                Mail::to($email)->send($new_email);
             }
+            // send email
+            $email = Customer::find($request->customer_id)->email;
+            Mail::to($email)->send($new_email);
         }
 
         $event->update($request->all());
