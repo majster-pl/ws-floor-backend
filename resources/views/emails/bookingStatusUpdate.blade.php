@@ -9,13 +9,13 @@ Reg: <b>{{ $data['reg'] }} </b><br>
 
 <b style="color: green">Changes:</b><br>
 @if (isset($updated["status"]))
-<b>Status</b>: <strike style="color: red">{{ ucfirst(str_replace("_", " ", $data['status'])) }}</strike> -> <label style="color: green">{{ ucfirst(str_replace("_", " ", $updated['status'])) }}</label><br>
+Status: <b><strike style="color: red">{{ ucfirst(str_replace("_", " ", $data['status'])) }}</strike> -> <label style="color: green">{{ ucfirst(str_replace("_", " ", $updated['status'])) }}</label></b><br>
 @endif
 @if (isset($updated["free_text"]))
-<b>Job Notes:</b>
+Job Notes:
 <textarea type="text" class="form-control" style="width: 100%; height: 7rem" name="free_text" readonly>{{ $updated['free_text'] }}</textarea>
 @elseif (isset($data['free_text']))
-<b>Job Notes:</b>
+Job Notes:
 <textarea type="text" class="form-control" style="width: 100%; height: 7rem" name="free_text" readonly>{{ $data['free_text'] }}</textarea>
 @endif
 
