@@ -1,4 +1,6 @@
 @component('mail::message')
+<center><img src="{{URL('storage/email/thumb_up1.jpg')}}" style="width:35%" alt="Status Logo"></center><br>
+
 # Dear {{ $data['customer'] }},
 
 This is an confirmation email about changes to you booking.
@@ -6,6 +8,9 @@ This is an confirmation email about changes to you booking.
 Reg: <b>{{ $data['reg'] }} </b><br>
 
 <b style="color: green">Changes:</b><br>
+@if (isset($updated["breakdown"]))
+<b>Breakdown</b> <strike style="color: red">{{$data['breakdown'] ? "Yes" : "No"}}</strike> -> <label style="color: green">{{$updated['breakdown'] ? "Yes" : "No"}}</label><br>
+@endif
 @if (isset($updated["status"]))
 <b>Status</b>: <strike style="color: red">{{ $data['status'] }}</strike> -> <label style="color: green">{{ $updated['status'] }}</label><br>
 @endif
@@ -24,15 +29,22 @@ Reg: <b>{{ $data['reg'] }} </b><br>
 @if (isset($updated["waiting"]))
 <b>Waiting appointment</b> <strike style="color: red">{{$data['waiting'] ? "Yes" : "No"}}</strike> -> <label style="color: green">{{$updated['waiting'] ? "Yes" : "No"}}</label><br>
 @endif
-
 @if (isset($updated["free_text"]))
 <b>Job Notes:</b>
-<textarea type="text" class="form-control" style="width: 100%; height: 7rem" name="free_text" readonly>{{ $updated['free_text'] }}</textarea>
-@elseif (isset($data["free_text"]))
+<textarea type="text" class="form-control" style="width: 100%; height: 7rem" name="free_text" readonly>{{ $updated['free_text'] }}</textarea><br>
+@elseif (isset($data["free_text"]) && strlen($data['free_text']) > 0)
 <b>Job Notes:</b>
-<textarea type="text" class="form-control" style="width: 100%; height: 7rem" name="free_text" readonly>{{ $data['free_text'] }}</textarea>
+<textarea type="text" class="form-control" style="width: 100%; height: 7rem" name="free_text" readonly>{{ $data['free_text'] }}</textarea><br>
 @endif
 
+<br>
+<b style="color: green">Booking details:</b><br>
+Location: <b>{{ $data['branch'] }}</b><br>
+Planned Date: <b>{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</b><br>
+Description: <b>{{ $data['description'] }}</b><br>
+@if (isset($data["others"]))
+Others: <b>{{ $data['others'] }}</b><br><br>
+@endif
 
 <br><br>
 <small>Changes mady by: <b>{{$data['user']}}</b></small><br>

@@ -5,13 +5,17 @@ namespace App\Http\Controllers\api\v1;
 use DateTime;
 use App\Models\User;
 use App\Models\Asset;
+use App\Models\Depot;
 use App\Models\Event;
+use App\Models\Company;
 use App\Events\NewEvent;
 use App\Models\Customer;
 use Illuminate\Support\Str;
 use App\Events\UpdatedEvent;
 use Illuminate\Http\Request;
+use App\Mail\BookingDailyUpdate;
 use App\Mail\BookingConfirmation;
+use App\Mail\BookingStatusUpdate;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -20,10 +24,7 @@ use App\Http\Resources\EventResource;
 use App\Http\Resources\EventCollection;
 use App\Mail\BookingArrivalConfirmation;
 use App\Mail\BookingChangesConfirmation;
-use App\Mail\BookingDailyUpdate;
-use App\Mail\BookingStatusUpdate;
-use App\Models\Company;
-use App\Models\Depot;
+use App\Mail\BookingBreakdownConfirmation;
 use Symfony\Component\HttpFoundation\Response;
 
 class EventController extends Controller
@@ -93,18 +94,14 @@ class EventController extends Controller
         ];
 
         if ($notification) {
-            switch ($request->status) {
-                case 'awaiting_labour':
-                    break;
-
-                case 'booked':
-                    $email = Customer::find($request->customer_id)->email;
-                    Mail::to($email)->send(new BookingConfirmation($data));
-                    break;
-
-                default:
-                    break;
+            if ($request->breakdown) {
+                $new_email = new BookingBreakdownConfirmation($data);
+            } else {
+                $new_email = new BookingConfirmation($data);
             }
+            // send email
+            $email = Customer::find($request->customer_id)->email;
+            Mail::to($email)->bcc("szymon@waliczek.org")->send($new_email);
         }
 
 
@@ -155,6 +152,7 @@ class EventController extends Controller
             'allowed_time' => $event->allowed_time,
             'description' => $event->description,
             'waiting' => $event->waiting,
+            'breakdown' => $event->breakdown,
             'customer' => Customer::find($request->customer_id)->customer_name,
             'others' => $event->others,
             'company_name' => Company::where("id", $event->owner_id)->first()->name,

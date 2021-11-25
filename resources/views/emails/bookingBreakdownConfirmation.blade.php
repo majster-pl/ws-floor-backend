@@ -1,17 +1,19 @@
 @component('mail::message')
-<center><img src="{{URL('storage/email/confirmation1.jpg')}}" style="width:35%" alt="Status Logo"></center><br>
+<center><img src="{{URL('storage/email/breakdown'.rand(1,2).'.jpg')}}" style="width:35%" alt="Status Logo"></center><br>
 
 # Dear {{ $data['customer'] }},
 
-This is confirmation email of your booking with <b style="color: #fa9836">{{ $data['company_name'] }}</b>.<br><br>
+This is confirmation email of new <b style="color: red">breakdown</b> for <b>{{ $data['reg'] }}</b>.<br>
+
+Attending Dealer: <b>{{ $data['company_name'] }} - {{ $data['branch'] }}</b>.<br>
 Reg: <b>{{ $data['reg'] }} </b><br>
 Date: <b>{{ $data['booked_date_time'] }}</b> <br>
-Waiting appointment: <b>{{$data['waiting'] ? "Yes" : "No"}}</b><br>
-Location: <b>{{ $data['branch'] }}</b><br>
 Description: <b>{{ $data['description'] }}</b><br>
 @if (isset($data["others"]))
 Others: <b>{{ $data['others'] }}</b><br>
 @endif
+
+Thank you for choosing us, our mobile technician will be happy to assist you with your breakdown today.<br>
 
 <br>
 <small>Booking created by: <b>{{$data['user']}}</b></small><br>

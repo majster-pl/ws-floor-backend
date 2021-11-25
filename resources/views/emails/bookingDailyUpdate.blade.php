@@ -1,4 +1,6 @@
 @component('mail::message')
+<center><img src="{{URL('storage/email/notification'.rand(1,4).'.jpg')}}" style="width:35%" alt="Status Logo"></center><br>
+
 # Dear {{ $data['customer'] }},
 
 This is daily update email to keep you up to date with the status of the repair.<br>
