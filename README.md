@@ -36,6 +36,7 @@ Change below in .env file:
 	PUSHER_APP_CLUSTER=mt1
 	# Make sure you set your domain name where you want to run the API server, if local set to localhost if elsewhere enter your IP or domain name.
 	SESSION_DOMAIN='your_domain.com (without quotes)'
+	SANCTUM_STATEFUL_DOMAINS="your_domain.com (without quotes)"
 	# [Mail setup] - to make sure notification emails are sent make sure you set mail server setting below
 	MAIL_MAILER=
 	MAIL_HOST=
