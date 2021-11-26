@@ -289,6 +289,10 @@ img {
     word-break: break-all;
 }
 
+.app-logo {
+    width: 400px;
+}
+
 .form-control {
     display           : block;
     width             : 100%;

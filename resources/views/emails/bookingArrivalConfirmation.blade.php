@@ -1,5 +1,5 @@
 @component('mail::message')
-<center><img src="{{URL('storage/email/wrench'.rand(1,5).'.jpg')}}" style="width:35%" alt="Status Logo"></center><br>
+<center><img src="{{URL('storage/email/wrench'.rand(1,5).'.png')}}" style="width:35%" alt="Status Logo"></center><br>
 
 # Dear {{ $data['customer'] }},
 
