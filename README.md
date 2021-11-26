@@ -26,6 +26,7 @@ Change below in .env file:
 
 	APP_KEY='read above how to generate app key'
 	APP_ENV=local 'change to production if necessary'
+	WEBAPP_URL="http://localhost:3000" - set to your webapp url
 	DB_DATABASE='database name'
 	DB_USERNAME='database user name'
 	DB_PASSWORD='passowrd to database'
