@@ -17,7 +17,7 @@ Thank you for choosing us, our mobile technician will be happy to assist you wit
 
 <br>
 <small>Booking created by: <b>{{$data['user']}}</b></small><br>
-Please <a href="mailto:{{$data['depot_email']}}?subject=Breakdown booking changes request for {{$data['reg']}}&body=Hello {{$data['company_name']}},%0D%0A%0D%0AI would like to amned .....  for {{$data['reg']}}.">contact us</a> if you need to make any changes to this booking.<br><br>
+Please <a href="mailto:{{$data['depot_email']}}?subject=Breakdown booking changes request for {{$data['reg']}}&body=Hello {{$data['company_name']}},%0D%0A%0D%0AI would like to amend .....  for {{$data['reg']}}.">contact us</a> if you need to make any changes to this booking.<br><br>
 
 We are looking forward to seeing you!<br><br>
 
