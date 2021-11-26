@@ -1,5 +1,11 @@
 @component('mail::message')
+@if (isset($updated["status"]))
+@if (str_contains(Str::lower($updated["status"]), "waiting") )
+<center><img src="{{URL('storage/email/stop'. rand(1,2).'.png')}}" style="width:35%" alt="Status Logo"></center><br>
+@endif
+@else
 <center><img src="{{URL('storage/email/thumb_up1.png')}}" style="width:35%" alt="Status Logo"></center><br>
+@endif
 
 # Dear {{ $data['customer'] }},
 
