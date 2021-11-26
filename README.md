@@ -59,6 +59,10 @@ You can change session lifetime, timezone by changing below in .env file
 *or with dammy data*
 `php artisan migrate --seed`
 
+## Setup public folder
+loging to you server and run:
+`php artisan storage:link`
+above command will create link to storage/app/public folder
 
 
 ## Contributing

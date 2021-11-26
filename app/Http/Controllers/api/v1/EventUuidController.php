@@ -63,6 +63,7 @@ class EventUuidController extends Controller
             'special_instructions' => $event->special_instructions,
             'arrived_date' => date_format(date_create($request->arrived_date), "d/m/Y H:i"),
             'free_text' => $event->free_text,
+            'depot_email' => Depot::find($event->owning_branch)->email,
         ];
 
 

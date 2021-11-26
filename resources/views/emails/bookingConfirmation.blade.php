@@ -15,10 +15,12 @@ Others: <b>{{ $data['others'] }}</b><br>
 
 <br>
 <small>Booking created by: <b>{{$data['user']}}</b></small><br>
-Please <a href="mailto:booking@test.org">contact us</a> if you need to make any changes to this booking.
+Please <a href="mailto:{{$data['depot_email']}}?subject=Booking changes request for {{$data['reg']}}&body=Hello {{$data['company_name']}},%0D%0A%0D%0AI would like to amend my booking for {{$data['reg']}}, can you ...">contact us</a> if you need to make any changes to this booking.<br><br>
 
-We are looking forward to seeing you!<br>
-# {{ config('app.name') }} Team,
+We are looking forward to seeing you!<br><br>
+
+Best Regards,
+# {{ config('app.name') }} Team
 <small>
     <a style="display: inline-block;" class="attributin" href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
 </small>

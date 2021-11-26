@@ -17,11 +17,9 @@ class CreateDepotsTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->unsignedBigInteger('owner_id')->nullable();
-            $table->string('owner_name')->nullable();
             $table->timestamps();
 
             $table->foreign('owner_id')->references('id')->on('companies');
-            $table->foreign('owner_name')->references('name')->on('companies');
         });
     }
 

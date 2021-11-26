@@ -28,26 +28,31 @@ class DatabaseSeeder extends Seeder
         DB::table('depots')->insert([
             'name' => 'Avonmouth',
             'owner_id' => 1,
+            'email' => 'serviceavonmouth@swtv-ltd.com',
         ]);
 
         DB::table('depots')->insert([
             'name' => 'Gloucester',
             'owner_id' => 1,
+            'email' => 'servicegloucester@swtv-ltd.com',
         ]);
 
         DB::table('depots')->insert([
             'name' => 'Swindon',
             'owner_id' => 1,
+            'email' => 'serviceswindon@swtv-ltd.com',
         ]);
 
         DB::table('depots')->insert([
             'name' => 'Bristol',
             'owner_id' => 2,
+            'email' => 'service.bristol@demo.com',
         ]);
 
         DB::table('depots')->insert([
             'name' => 'London',
             'owner_id' => 2,
+            'email' => 'service.london@demo.com',
         ]);
 
         DB::table('users')->insert([

@@ -31,9 +31,10 @@ Allowed Time: <b><strike class="text-danger">{{ $data['allowed_time'] }}h</strik
 
 <br><br>
 <small>Status updated by: <b>{{$data['user']}}</b></small><br>
-Please <a href="mailto:booking@test.org">contact us</a> if you have any queries.<br>
+Please <a href="mailto:{{$data['depot_email']}}?subject=Daily update query for {{$data['reg']}}&body=Hello {{$data['company_name']}},%0D%0A%0D%0AI have a query on the update I've received from you, ..... ">contact us</a> if you have any queries.<br><br>
 
-# {{ config('app.name') }} Team,
+Best Regards,
+# {{ config('app.name') }} Team
 <small>
     <a style="display: inline-block;" class="attributin" href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
 </small>

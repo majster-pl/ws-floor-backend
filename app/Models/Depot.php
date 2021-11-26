@@ -11,10 +11,7 @@ class Depot extends Model
 
     protected $fillable = [
         'name',
+        'email',
     ];
 
-    public function company_name()
-    {
-        return "Test";
-    }
 }
