@@ -7,27 +7,27 @@ This is an confirmation email about changes to you booking.
 
 Reg: <b>{{ $data['reg'] }} </b><br>
 
-<b style="color: green">Changes:</b><br>
+<b class="text-info">Changes:</b><br>
 @if (isset($updated["breakdown"]))
-Breakdown: <b><strike style="color: red">{{$data['breakdown'] ? "Yes" : "No"}}</strike> -> <label style="color: green">{{$updated['breakdown'] ? "Yes" : "No"}}</label></b><br>
+Breakdown: <b><strike class="text-danger">{{$data['breakdown'] ? "Yes" : "No"}}</strike> -> <label class="text-success">{{$updated['breakdown'] ? "Yes" : "No"}}</label></b><br>
 @endif
 @if (isset($updated["status"]))
-Status: <b><strike style="color: red">{{ $data['status'] }}</strike> -> <label style="color: green">{{ $updated['status'] }}</label></b><br>
+Status: <b><strike class="text-danger">{{ $data['status'] }}</strike> -> <label class="text-success">{{ $updated['status'] }}</label></b><br>
 @endif
 @if (isset($updated["booked_date_time"]))
-Booking Date: <b><strike style="color: red">{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</strike> -> <label style="color: green">{{ date_format(date_create($updated['booked_date_time']), "d/m/Y H:i") }}</label></b><br>
+Booking Date: <b><strike class="text-danger">{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</strike> -> <label class="text-success">{{ date_format(date_create($updated['booked_date_time']), "d/m/Y H:i") }}</label></b><br>
 @endif
 @if (isset($updated["description"]))
-Description: <b><strike style="color: red">{{ $data['description'] }}</strike> -> <label style="color: green">{{ $updated['description'] }}</label></b><br>
+Description: <b><strike class="text-danger">{{ $data['description'] }}</strike> -> <label class="text-success">{{ $updated['description'] }}</label></b><br>
 @endif
 @if (isset($updated["others"]))
-Others: <b><strike style="color: red">{{ $data['others'] }}</strike> -> <label style="color: green">{{ $updated['others'] }}</label></b><br>
+Others: <b><strike class="text-danger">{{ $data['others'] }}</strike> -> <label class="text-success">{{ $updated['others'] }}</label></b><br>
 @endif
 @if (isset($updated["allowed_time"]))
-Allowed Time: <b><strike style="color: red">{{ $data['allowed_time'] }}h</strike> -> <label style="color: green">{{ $updated['allowed_time'] }}h</label></b><br>
+Allowed Time: <b><strike class="text-danger">{{ $data['allowed_time'] }}h</strike> -> <label class="text-success">{{ $updated['allowed_time'] }}h</label></b><br>
 @endif
 @if (isset($updated["waiting"]))
-Waiting appointment <b><strike style="color: red">{{$data['waiting'] ? "Yes" : "No"}}</strike> -> <label style="color: green">{{$updated['waiting'] ? "Yes" : "No"}}</label></b><br>
+Waiting appointment <b><strike class="text-danger">{{$data['waiting'] ? "Yes" : "No"}}</strike> -> <label class="text-success">{{$updated['waiting'] ? "Yes" : "No"}}</label></b><br>
 @endif
 @if (isset($updated["free_text"]))
 Job Notes:
@@ -38,7 +38,7 @@ Job Notes:
 @endif
 
 <br>
-<b style="color: green">Booking details:</b><br>
+<b class="text-info">Booking details:</b><br>
 Location: <b>{{ $data['branch'] }}</b><br>
 Planned Date: <b>{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</b><br>
 Description: <b>{{ $data['description'] }}</b><br>
@@ -51,4 +51,7 @@ Others: <b>{{ $data['others'] }}</b><br><br>
 Please <a href="mailto:booking@test.org">contact us</a> if you need to make any changes to this booking.<br>
 
 # {{ config('app.name') }} Team,
+<small>
+    <a style="display: inline-block;" class="attributin" href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
+</small>
 @endcomponent

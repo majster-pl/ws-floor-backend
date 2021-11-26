@@ -7,9 +7,9 @@ This is an confirmation email about changes to you booking.
 
 Reg: <b>{{ $data['reg'] }} </b><br>
 
-<b style="color: green">Changes:</b><br>
+<b class="text-info">Changes:</b><br>
 @if (isset($updated["status"]))
-Status: <b><strike style="color: red">{{ ucfirst(str_replace("_", " ", $data['status'])) }}</strike> -> <label style="color: green">{{ ucfirst(str_replace("_", " ", $updated['status'])) }}</label></b><br>
+Status: <b><strike class="text-danger">{{ ucfirst(str_replace("_", " ", $data['status'])) }}</strike> -> <label class="text-success">{{ ucfirst(str_replace("_", " ", $updated['status'])) }}</label></b><br>
 @endif
 @if (isset($updated["free_text"]))
 Job Notes:
@@ -20,7 +20,7 @@ Job Notes:
 @endif
 
 <br><br>
-<b style="color: green">Booking details:</b><br>
+<b class="text-info">Booking details:</b><br>
 Location: <b>{{ $data['branch'] }}</b><br>
 Planned Date: <b>{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</b><br>
 Description: <b>{{ $data['description'] }}</b><br>
@@ -33,4 +33,7 @@ Others: <b>{{ $data['others'] }}</b><br><br>
 Please <a href="mailto:booking@test.org">contact us</a> if you have any queries.<br>
 
 # {{ config('app.name') }} Team,
+<small>
+    <a style="display: inline-block;" class="attributin" href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
+</small>
 @endcomponent

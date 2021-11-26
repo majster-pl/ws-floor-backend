@@ -3,7 +3,7 @@
 
 # Dear {{ $data['customer'] }},
 
-This is confirmation email of your booking with <b style="color: #fa9836">{{ $data['company_name'] }}</b>.<br><br>
+This is confirmation email of your booking with <b class="text-info">{{ $data['company_name'] }}</b>.<br><br>
 Reg: <b>{{ $data['reg'] }} </b><br>
 Date: <b>{{ $data['booked_date_time'] }}</b> <br>
 Waiting appointment: <b>{{$data['waiting'] ? "Yes" : "No"}}</b><br>
@@ -19,4 +19,7 @@ Please <a href="mailto:booking@test.org">contact us</a> if you need to make any 
 
 We are looking forward to seeing you!<br>
 # {{ config('app.name') }} Team,
+<small>
+    <a style="display: inline-block;" class="attributin" href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
+</small>
 @endcomponent

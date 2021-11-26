@@ -288,3 +288,37 @@ img {
 .break-all {
     word-break: break-all;
 }
+
+.form-control {
+    display           : block;
+    width             : 100%;
+    padding           : 0.175rem 0.75rem;
+    font-size         : 1rem;
+    font-weight       : 400;
+    line-height       : 1.5;
+    color             : #ffffff;
+    background-color  : #2a2d30;
+    background-clip   : padding-box;
+    border            : 0.1rem solid #39a883;
+    -webkit-appearance: none;
+    appearance        : none;
+    /* border-radius     : 0.75rem; */
+    /* transition        : border-color 0.35s ease-in-out, box-shadow 0.35s ease-in-out; */
+}
+
+.text-success {
+    color: #39a883;
+}
+.text-danger {
+    color: #f73c33;
+}
+.text-info {
+    color: #ffa349;
+}
+
+.attributin {
+    width: 100%;
+    font-size: x-small;
+    color: #919294;
+    text-align: end;
+}

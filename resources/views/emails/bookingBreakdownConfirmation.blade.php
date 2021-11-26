@@ -3,7 +3,7 @@
 
 # Dear {{ $data['customer'] }},
 
-This is confirmation email of new <b style="color: red">breakdown</b> for <b>{{ $data['reg'] }}</b>.<br>
+This is confirmation email of new <b class="text-danger">breakdown</b> for <b>{{ $data['reg'] }}</b>.<br>
 
 Attending Dealer: <b>{{ $data['company_name'] }} - {{ $data['branch'] }}</b>.<br>
 Reg: <b>{{ $data['reg'] }} </b><br>
@@ -21,4 +21,7 @@ Please <a href="mailto:booking@test.org">contact us</a> if you need to make any 
 
 We are looking forward to seeing you!<br>
 # {{ config('app.name') }} Team,
+<small>
+    <a style="display: inline-block;" class="attributin" href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
+</small>
 @endcomponent

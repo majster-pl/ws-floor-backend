@@ -1,5 +1,6 @@
 @component('mail::message')
 <center><img src="{{URL('storage/email/wrench'.rand(1,5).'.jpg')}}" style="width:35%" alt="Status Logo"></center><br>
+
 # Dear {{ $data['customer'] }},
 
 This is automated email to let you know that vehicle is now 
@@ -17,7 +18,7 @@ Arrival date & time:  <b>{{ date_format(date_create($updated['arrived_date']), "
 @endif
 
 
-<b style="color: green">Booking details:</b><br>
+<b class="text-info">Booking details:</b><br>
 Location: <b>{{ $data['branch'] }}</b><br>
 Planned Date: <b>{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</b><br>
 Description: <b>{{ $data['description'] }}</b><br>
@@ -27,7 +28,7 @@ Others: <b>{{ $data['others'] }}</b><br><br>
 @if (isset($updated["free_text"]))
 <b>Job Notes:</b>
 <textarea type="text" class="form-control" style="width: 100%; height: 7rem" name="free_text" readonly>{{ $updated['free_text'] }}</textarea>
-@elseif (isset($data["free_text"]))
+@elseif (isset($data["free_text"]) && strlen($data['free_text']) > 0)
 <b>Job Notes:</b>
 <textarea type="text" class="form-control" style="width: 100%; height: 7rem" name="free_text" readonly>{{ $data['free_text'] }}</textarea>
 @endif
@@ -41,6 +42,6 @@ Please <a href="mailto:booking@test.org">contact us</a> if you have any queries.
 
 # {{ config('app.name') }} Team,
 <small>
-    <a href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
+    <a style="display: inline-block;" class="attributin" href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
 </small>
 @endcomponent
