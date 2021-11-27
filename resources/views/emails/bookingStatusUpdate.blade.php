@@ -36,6 +36,7 @@ Others: <b>{{ $data['others'] }}</b><br><br>
 
 <br><br>
 <small>Status updated by: <b>{{$data['user']}}</b></small><br>
+
 Please <a href="mailto:{{$data['depot_email']}}?subject=Status update query for {{$data['reg']}}&body=Hello {{$data['company_name']}},%0D%0A%0D%0AI have a query on the email I've received from you, ..... ">contact us</a> if you have any queries.<br><br>
 
 Best Regards,

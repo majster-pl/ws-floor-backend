@@ -54,6 +54,7 @@ Others: <b>{{ $data['others'] }}</b><br><br>
 
 <br><br>
 <small>Changes mady by: <b>{{$data['user']}}</b></small><br>
+
 Please <a href="mailto:{{$data['depot_email']}}?subject=Booking changes request for {{$data['reg']}}&body=Hello {{$data['company_name']}},%0D%0A%0D%0AI would like to amend .....  for {{$data['reg']}}.">contact us</a> if you need to make any changes to this booking.<br><br>
 
 Best Regards,
