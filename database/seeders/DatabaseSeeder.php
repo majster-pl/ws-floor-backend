@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 use Database\Seeders\AssetSeeder;
@@ -58,7 +59,7 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => 'password123',
+            'password' => Hash::make('password123'),
             'owner_id' => 1,
             'default_branch' => 1,
         ]);
@@ -67,7 +68,7 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert([
             'name' => 'Demo User',
             'email' => 'demo@demo.com',
-            'password' => 'demo123',
+            'password' => Hash::make('demo123'),
             'owner_id' => 2,
             'default_branch' => 4,
         ]);
