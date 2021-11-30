@@ -50,6 +50,12 @@ class apiInstallation extends Command
             return Command::SUCCESS;
         }
 
+        if (env('APP_ENV') === "production") {
+            $this->error("ERROR: this command can not be run in porduction mode!");
+            $this->info("\nplease change to 'local' and run this command again");
+            return Command::SUCCESS;
+        }
+
         $this->info("Welcome to WS Floor API installer, please follow instruction bellow to complete installation");
 
         $run_confirm = $this->confirm("Please be aware that running this operation will wipe all data stored in <fg=red>" . env('DB_DATABASE') . "</> database.
@@ -59,12 +65,12 @@ class apiInstallation extends Command
             $this->info("Installation not completed, you will not be able to login to admin panel of the API.");
             return Command::SUCCESS;
         } else {
-            Artisan::call("migrate:fresh", array('--force' => true));
+            Artisan::call("migrate:fresh");
         }
 
         $seed = $this->confirm("Do you want to populate API with fake data?");
         if ($seed) {
-            Artisan::call("db:seed", ["--class" => "FakeDataSeeder", '--force' => true]);
+            Artisan::call("db:seed", ["--class" => "FakeDataSeeder"]);
 
             // draw table for user with login details
             $this->info("Below you have login details to front-end application:");
@@ -78,9 +84,16 @@ class apiInstallation extends Command
                 // [User::where('id', 2)->pluck('email')[0], 'demo123'],
             ]);
             $table->render();
-
         }
 
+        $install_admin = $this->confirm("Do you want to install admin panel?");
+        if ($install_admin) {
+            Artisan::call("admin:install");
+            Artisan::call("db:seed", ["--class" =>"AdminTablesSeeder"]);
+        }
+
+        $this->info("Installation Completed, you can login to admin panel url: " . URL('/admin') . " 
+using username: admin  password: admin.");
 
         return Command::SUCCESS;
     }
