@@ -12,6 +12,7 @@ class Depot extends Model
     protected $fillable = [
         'name',
         'email',
+        'owner_id',
     ];
 
 }
