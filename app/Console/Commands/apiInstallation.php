@@ -86,11 +86,8 @@ class apiInstallation extends Command
             $table->render();
         }
 
-        $install_admin = $this->confirm("Do you want to install admin panel?");
-        if ($install_admin) {
-            Artisan::call("admin:install");
-            Artisan::call("db:seed", ["--class" =>"AdminTablesSeeder"]);
-        }
+        Artisan::call("admin:install");
+        Artisan::call("db:seed", ["--class" =>"AdminTablesSeeder"]);
 
         $this->info("Installation Completed, you can login to admin panel url: " . URL('/admin') . " 
 using username: admin  password: admin.");
