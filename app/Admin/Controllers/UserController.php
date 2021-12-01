@@ -2,10 +2,13 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Company;
+use App\Models\Depot;
 use App\Models\User;
 use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
+use Encore\Admin\Grid\Filter\Where;
 use Encore\Admin\Show;
 
 class UserController extends AdminController
@@ -29,13 +32,8 @@ class UserController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
         $grid->column('email', __('Email'));
-        $grid->column('email_verified_at', __('Email verified at'));
-        $grid->column('password', __('Password'));
-        $grid->column('owner_id', __('Owner id'));
-        $grid->column('default_branch', __('Default branch'));
-        $grid->column('remember_token', __('Remember token'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
+        $grid->column('owner_id', __('Owner id'))->default("TEST");
+        $grid->column('default_branch', __('Default branch id'));
 
         return $grid;
     }
@@ -49,15 +47,11 @@ class UserController extends AdminController
     protected function detail($id)
     {
         $show = new Show(User::findOrFail($id));
-
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
         $show->field('email', __('Email'));
-        $show->field('email_verified_at', __('Email verified at'));
-        $show->field('password', __('Password'));
-        $show->field('owner_id', __('Owner id'));
-        $show->field('default_branch', __('Default branch'));
-        $show->field('remember_token', __('Remember token'));
+        $show->field('owner_id', __('Company id'));
+        $show->field('default_branch', __('Default branch ID'));
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -71,15 +65,18 @@ class UserController extends AdminController
      */
     protected function form()
     {
+        // print($id);
         $form = new Form(new User());
-
-        $form->text('name', __('Name'));
-        $form->email('email', __('Email'));
-        $form->datetime('email_verified_at', __('Email verified at'))->default(date('Y-m-d H:i:s'));
+        $form->text('name', __('Name'))->required();
+        $form->email('email', __('Email'))->required();
         $form->password('password', __('Password'));
-        $form->number('owner_id', __('Owner id'));
-        $form->number('default_branch', __('Default branch'));
-        $form->text('remember_token', __('Remember token'));
+        $form->select('owner_id', 'Company')->options(
+            Company::all()->pluck('name', 'id')
+        )->required();
+
+        $form->select('default_branch', 'Branch')->options(
+            Depot::all()->pluck('name', 'id')
+        )->required()->help('Please make sure you sellect depot which belongs to Company!');
 
         return $form;
     }

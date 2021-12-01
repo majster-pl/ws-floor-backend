@@ -3,10 +3,11 @@
 namespace App\Admin\Controllers;
 
 use App\Models\Depot;
-use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use App\Models\Company;
+use Encore\Admin\Controllers\AdminController;
 
 class DepotController extends AdminController
 {
@@ -29,8 +30,6 @@ class DepotController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
         $grid->column('owner_id', __('Owner id'));
-        $grid->column('created_at', __('Created at'));
-        $grid->column('updated_at', __('Updated at'));
         $grid->column('email', __('Email'));
 
         return $grid;
@@ -65,9 +64,12 @@ class DepotController extends AdminController
     {
         $form = new Form(new Depot());
 
-        $form->text('name', __('Name'));
-        $form->number('owner_id', __('Owner id'));
-        $form->email('email', __('Email'));
+        $form->text('name', __('Name'))->required();
+        $form->email('email', __('Email'))->required();
+        $form->select('owner_id', 'Company')->options(
+            Company::all()->pluck('name', 'id')
+        )->required();
+
 
         return $form;
     }
