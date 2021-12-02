@@ -15,4 +15,6 @@ Route::group([
     $router->resource('users', UserController::class);
     $router->resource('companies', CompanyController::class);
     $router->resource('depots', DepotController::class);
+    $router->resource('customers', CustomerController::class);
+    $router->resource('assets', CustomerAsset::class);
 });

@@ -20,4 +20,13 @@ class Customer extends Model
         'owner_id',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'owner_id', 'id');
+    }
 }

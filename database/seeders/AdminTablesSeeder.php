@@ -28,7 +28,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 0,
-                    "order" => 5,
+                    "order" => 8,
                     "title" => "Admin",
                     "icon" => "fa-tasks",
                     "uri" => "",
@@ -36,7 +36,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 6,
+                    "order" => 9,
                     "title" => "Users",
                     "icon" => "fa-users",
                     "uri" => "auth/users",
@@ -44,7 +44,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 7,
+                    "order" => 10,
                     "title" => "Roles",
                     "icon" => "fa-user",
                     "uri" => "auth/roles",
@@ -52,7 +52,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 8,
+                    "order" => 11,
                     "title" => "Permission",
                     "icon" => "fa-ban",
                     "uri" => "auth/permissions",
@@ -60,7 +60,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 9,
+                    "order" => 12,
                     "title" => "Menu",
                     "icon" => "fa-bars",
                     "uri" => "auth/menu",
@@ -68,7 +68,7 @@ class AdminTablesSeeder extends Seeder
                 ],
                 [
                     "parent_id" => 2,
-                    "order" => 10,
+                    "order" => 13,
                     "title" => "Operation log",
                     "icon" => "fa-history",
                     "uri" => "auth/logs",
@@ -97,6 +97,30 @@ class AdminTablesSeeder extends Seeder
                     "icon" => "fa-users",
                     "uri" => "/users",
                     "permission" => NULL
+                ],
+                [
+                    "parent_id" => 12,
+                    "order" => 7,
+                    "title" => "Customers",
+                    "icon" => "fa-user",
+                    "uri" => "/customers",
+                    "permission" => "*"
+                ],
+                [
+                    "parent_id" => 0,
+                    "order" => 5,
+                    "title" => "DB Data",
+                    "icon" => "fa-database",
+                    "uri" => "/#",
+                    "permission" => "*"
+                ],
+                [
+                    "parent_id" => 12,
+                    "order" => 6,
+                    "title" => "Assets",
+                    "icon" => "fa-car",
+                    "uri" => "/assets",
+                    "permission" => "*"
                 ]
             ]
         );
@@ -162,6 +186,10 @@ class AdminTablesSeeder extends Seeder
                 [
                     "role_id" => 1,
                     "menu_id" => 10
+                ],
+                [
+                    "role_id" => 1,
+                    "menu_id" => 11
                 ],
                 [
                     "role_id" => 1,
