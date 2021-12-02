@@ -17,4 +17,5 @@ Route::group([
     $router->resource('depots', DepotController::class);
     $router->resource('customers', CustomerController::class);
     $router->resource('assets', CustomerAsset::class);
+    $router->resource('events', CustomerEvent::class);
 });

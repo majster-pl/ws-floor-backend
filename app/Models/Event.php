@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Depot;
+use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Auth;
-use Spatie\Activitylog\Traits\LogsActivity;
-use Spatie\Activitylog\LogOptions;
 
 class Event extends Model
 {
@@ -82,5 +83,22 @@ class Event extends Model
     public function customer()
     {
         return $this->belongsTo(Customer::class)->withTrashed();
+    }
+
+
+    public function depot()
+    {
+        return $this->belongsTo(Depot::class, 'owning_branch', 'id');
+    }
+
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'owner_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 }
