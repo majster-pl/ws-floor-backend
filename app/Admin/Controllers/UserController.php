@@ -32,8 +32,8 @@ class UserController extends AdminController
         $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
         $grid->column('email', __('Email'));
-        $grid->column('owner_id', __('Owner id'))->default("TEST");
-        $grid->column('default_branch', __('Default branch id'));
+        $grid->column('depot.name', __('Default depot'));
+        $grid->column('company.name', __('Company'));
 
         return $grid;
     }
@@ -50,8 +50,9 @@ class UserController extends AdminController
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
         $show->field('email', __('Email'));
-        $show->field('owner_id', __('Company id'));
-        $show->field('default_branch', __('Default branch ID'));
+        $show->field('depot.name', __('Default Depot'));
+        $show->field('company.name', __('Company'));
+        $show->divider();
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 
@@ -63,10 +64,14 @@ class UserController extends AdminController
      *
      * @return Form
      */
-    protected function form()
+    protected function form($id = null)
     {
-        // print($id);
         $form = new Form(new User());
+        // workaround to get selected user ID
+        $url_atributes = explode("/", $_SERVER['REQUEST_URI']);
+        $id = (array_reverse($url_atributes)[1]);
+        $company_id = isset(User::find($id)->owner_id) ? User::find($id)->owner_id : null;
+
         $form->text('name', __('Name'))->required();
         $form->email('email', __('Email'))->required();
         $form->password('password', __('Password'));
@@ -75,8 +80,8 @@ class UserController extends AdminController
         )->required();
 
         $form->select('default_branch', 'Branch')->options(
-            Depot::all()->pluck('name', 'id')
-        )->required()->help('Please make sure you sellect depot which belongs to Company!');
+            Depot::where('owner_id', $company_id)->pluck('name', 'id')
+        )->help('If Depot not visable after selecting new depot please submit and edit again!');
 
         return $form;
     }

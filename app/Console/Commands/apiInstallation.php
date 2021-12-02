@@ -58,8 +58,8 @@ class apiInstallation extends Command
 
         $this->info("Welcome to WS Floor API installer, please follow instruction bellow to complete installation");
 
-        $run_confirm = $this->confirm("Please be aware that running this operation will wipe all data stored in <fg=red>" . env('DB_DATABASE') . "</> database.
- Do you want yo proceed?");
+        $run_confirm = $this->confirm("Please be aware that running this command it will wipe all data stored in <fg=red>" . env('DB_DATABASE') . "</> database.
+ Do you want to proceed?");
 
         if (!$run_confirm) {
             $this->info("Installation not completed, you will not be able to login to admin panel of the API.");

@@ -26,7 +26,6 @@ class CompanyController extends AdminController
     {
         $grid = new Grid(new Company());
 
-        $grid->column('id', __('Id'));
         $grid->column('name', __('Name'));
 
         return $grid;
@@ -44,6 +43,7 @@ class CompanyController extends AdminController
 
         $show->field('id', __('Id'));
         $show->field('name', __('Name'));
+        $show->divider();
         $show->field('created_at', __('Created at'));
         $show->field('updated_at', __('Updated at'));
 

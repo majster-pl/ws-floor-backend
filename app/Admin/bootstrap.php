@@ -19,3 +19,7 @@
  */
 
 Encore\Admin\Form::forget(['map', 'editor']);
+use Encore\Admin\Admin;
+
+Admin::favicon('/storage/favicon.png');
+

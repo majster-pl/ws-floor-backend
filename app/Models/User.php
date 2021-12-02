@@ -15,7 +15,7 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -47,5 +47,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function depot()
+    {
+        return $this->belongsTo(Depot::class, 'default_branch', 'id');
+    }
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'owner_id', 'id');
+    }
 }

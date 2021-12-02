@@ -15,4 +15,8 @@ class Depot extends Model
         'owner_id',
     ];
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'owner_id', 'id');
+    }
 }
