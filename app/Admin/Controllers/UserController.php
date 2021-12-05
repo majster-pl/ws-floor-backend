@@ -74,7 +74,7 @@ class UserController extends AdminController
 
         $form->text('name', __('Name'))->required();
         $form->email('email', __('Email'))->required();
-        $form->password('password', __('Password'));
+        $form->password('password', __('Password'))->required();
         $form->select('owner_id', 'Company')->options(
             Company::all()->pluck('name', 'id')
         )->required();
