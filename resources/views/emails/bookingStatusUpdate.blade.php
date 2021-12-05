@@ -27,6 +27,7 @@ Job Notes:
 
 <br><br>
 <b class="text-info">Booking details:</b><br>
+Company: <b>{{ $data['company_name'] }}</b><br>
 Location: <b>{{ $data['branch'] }}</b><br>
 Planned Date: <b>{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</b><br>
 Description: <b>{{ $data['description'] }}</b><br>
@@ -34,13 +35,13 @@ Description: <b>{{ $data['description'] }}</b><br>
 Others: <b>{{ $data['others'] }}</b><br><br>
 @endif
 
-<br><br>
+<br>
 <small>Status updated by: <b>{{$data['user']}}</b></small><br>
 
 Please <a href="mailto:{{$data['depot_email']}}?subject=Status update query for {{$data['reg']}}&body=Hello {{$data['company_name']}},%0D%0A%0D%0AI have a query on the email I've received from you, ..... ">contact us</a> if you have any queries.<br><br>
 
 Best Regards,
-# {{ config('app.name') }} Team
+# {{$data['company_name']. " - ". $data['branch'] }} Team.
 <small>
     <a style="display: inline-block;" class="attributin" href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
 </small>

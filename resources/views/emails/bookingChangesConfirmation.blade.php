@@ -9,7 +9,7 @@
 
 # Dear {{ $data['customer'] }},
 
-This is an confirmation email about changes to you booking.
+This is an confirmation email about changes to you booking for <b>{{$data['reg']}}</b> with <b>{{$data['company_name']. " - ". $data['branch'] }}</b>.
 
 Reg: <b>{{ $data['reg'] }} </b><br>
 
@@ -45,6 +45,7 @@ Job Notes:
 
 <br>
 <b class="text-info">Booking details:</b><br>
+Company: <b>{{ $data['company_name'] }}</b><br>
 Location: <b>{{ $data['branch'] }}</b><br>
 Planned Date: <b>{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</b><br>
 Description: <b>{{ $data['description'] }}</b><br>
@@ -58,7 +59,7 @@ Others: <b>{{ $data['others'] }}</b><br><br>
 Please <a href="mailto:{{$data['depot_email']}}?subject=Booking changes request for {{$data['reg']}}&body=Hello {{$data['company_name']}},%0D%0A%0D%0AI would like to amend .....  for {{$data['reg']}}.">contact us</a> if you need to make any changes to this booking.<br><br>
 
 Best Regards,
-# {{ config('app.name') }} Team
+# {{$data['company_name']. " - ". $data['branch'] }} Team.
 <small>
     <a style="display: inline-block;" class="attributin" href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
 </small>

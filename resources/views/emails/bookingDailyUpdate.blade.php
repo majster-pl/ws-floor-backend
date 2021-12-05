@@ -3,11 +3,9 @@
 
 # Dear {{ $data['customer'] }},
 
-This is daily update email to keep you up to date with the status of the repair.<br>
+This is daily update email to keep you up to date with the status of the repair for <b>{{$data['reg']}}</b> at <b>{{$data['company_name']. " - ". $data['branch'] }}</b>.<br>
 
-Reg: <b>{{ $data['reg'] }} </b><br>
-
-<label class="text-info"><b>Updates:</b></label><br>
+<label class="text-info"><b>Update:</b></label><br>
 @if (isset($updated["booked_date_time"]))
 Booking Date: <b><strike class="text-danger">{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</strike> -> <label class="text-success">{{ date_format(date_create($updated['booked_date_time']), "d/m/Y H:i") }}</label></b><br>
 @endif
@@ -29,13 +27,24 @@ Allowed Time: <b><strike class="text-danger">{{ $data['allowed_time'] }}h</strik
 </label>
 @endif
 
+<br>
+<b class="text-info">Booking details:</b><br>
+Reg: <b>{{ $data['reg'] }} </b><br>
+Company: <b>{{ $data['company_name'] }}</b><br>
+Location: <b>{{ $data['branch'] }}</b><br>
+Planned Date: <b>{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</b><br>
+Description: <b>{{ $data['description'] }}</b><br>
+@if (isset($data["others"]))
+Others: <b>{{ $data['others'] }}</b><br><br>
+@endif
+
 <br><br>
 <small>Status updated by: <b>{{$data['user']}}</b></small><br>
 
 Please <a href="mailto:{{$data['depot_email']}}?subject=Daily update query for {{$data['reg']}}&body=Hello {{$data['company_name']}},%0D%0A%0D%0AI have a query on the update I've received from you, ..... ">contact us</a> if you have any queries.<br><br>
 
 Best Regards,
-# {{ config('app.name') }} Team
+# {{$data['company_name']. " - ". $data['branch'] }} Team.
 <small>
     <a style="display: inline-block;" class="attributin" href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
 </small>

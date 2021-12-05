@@ -29,7 +29,7 @@ class BookingBreakdownConfirmation extends Mailable
     public function build()
     {
         return $this->markdown('emails.bookingBreakdownConfirmation')
-            ->subject('New booking Confirmation [Breakdown] - ' . $this->data['reg'])
+            ->subject('New Breakdown Confirmation - ' . $this->data['reg'])
             ->with('data', $this->data);
     }
 }
