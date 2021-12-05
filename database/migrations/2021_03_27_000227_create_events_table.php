@@ -18,8 +18,8 @@ class CreateEventsTable extends Migration
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('asset_id');
             $table->float('order')->nullable();
-            $table->float('odometer_in')->nullable();
-            $table->float('odometer_out')->nullable();
+            $table->integer('odometer_in')->nullable();
+            $table->integer('odometer_out')->nullable();
             $table->unsignedBigInteger('customer_id');
             $table->boolean('waiting')->nullable()->default(false);
             $table->mediumText('others')->nullable();
