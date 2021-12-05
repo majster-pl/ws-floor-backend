@@ -96,10 +96,9 @@ class CustomerEvent extends AdminController
      */
     protected function form()
     {
-        // workaround to get selected user ID
-        $url_atributes = explode("/", $_SERVER['REQUEST_URI']);
-        $id = (array_reverse($url_atributes)[1]);
-        $company_id = isset(User::find($id)->owner_id) ? User::find($id)->owner_id : null;
+
+        // print(User::where('id', $id)->get());
+        // print($id);
 
         $form = new Form(new Event());
 
@@ -135,9 +134,21 @@ class CustomerEvent extends AdminController
             Company::all()->pluck('name', 'id')
         )->required();
         // $form->number('owning_branch', __('Owning branch'));
-        $form->select('owning_branch', 'Branch')->options(
-            Depot::where('owner_id', $company_id)->pluck('name', 'id')
-        )->help('If Depot not visable after selecting new depot please submit and edit again!');
+        // workaround to get selected user ID
+        $url_atributes = explode("/", $_SERVER['REQUEST_URI']);
+        $id = (array_reverse($url_atributes)[1]);
+        $company_id = isset(User::find($id)->owner_id) ? User::find($id)->owner_id : null;
+
+        if (isset($company_id)) {
+            $form->select('owning_branch', 'Branch')->options(
+                Depot::where('owner_id', $company_id)->pluck('name', 'id')
+            )->help('If Depot not visable after selecting new depot please submit and edit again!');
+        } else {
+            $form->select('owning_branch', 'Branch')->options(
+                Depot::all()->pluck('name', 'id')
+            )->help('If Depot not visable after selecting new depot please submit and edit again!');
+
+        }
 
         $form->text('status', __('Status'));
 
