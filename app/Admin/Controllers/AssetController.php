@@ -11,7 +11,7 @@ use App\Models\Customer;
 use App\Models\User;
 use Encore\Admin\Controllers\AdminController;
 
-class CustomerAsset extends AdminController
+class AssetController extends AdminController
 {
     /**
      * Title for current resource.

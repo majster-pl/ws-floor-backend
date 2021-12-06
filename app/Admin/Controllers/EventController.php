@@ -13,7 +13,7 @@ use App\Models\Customer;
 use App\Models\Depot;
 use Encore\Admin\Controllers\AdminController;
 
-class CustomerEvent extends AdminController
+class EventController extends AdminController
 {
     /**
      * Title for current resource.
