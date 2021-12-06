@@ -35,8 +35,7 @@ class AssetResource extends JsonResource
             'make' => $this->make,
             'uuid' => $this->uuid,
             'status' => $this->status,
-            'created_by_name' => isset(User::find($this->created_by)->name) ? User::find($this->created_by)->name : "no data",
-            // 'created_by_name' => User::find($this->created_by)->name,
+            'created_by_name' => $this->user->name,
             'created_by' => $this->created_by,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
