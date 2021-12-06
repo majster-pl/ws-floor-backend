@@ -30,6 +30,20 @@ class CustomerEvent extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Event());
+        $grid->filter(function ($filter) {
+
+            // Remove the default id filter
+            $filter->disableIdFilter();
+
+            // Add a column filter
+            $filter->contains('customer.customer_name', __('Customer'));
+            $filter->contains('asset.reg', __('Reg'));
+            $filter->contains('company.name', __('Owning Company'));
+            $filter->contains('depot.name', __('Owning branch'));
+            $filter->contains('status', __('Status'));
+
+        });
+
 
         $grid->column('id', __('Id'));
         $grid->column('asset.reg', __('Reg'));
@@ -147,7 +161,6 @@ class CustomerEvent extends AdminController
             $form->select('owning_branch', 'Branch')->options(
                 Depot::all()->pluck('name', 'id')
             )->help('If Depot not visable after selecting new depot please submit and edit again!');
-
         }
 
         $form->text('status', __('Status'));

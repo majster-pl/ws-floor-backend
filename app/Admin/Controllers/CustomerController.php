@@ -27,6 +27,16 @@ class CustomerController extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Customer());
+        $grid->filter(function ($filter) {
+
+            // Remove the default id filter
+            $filter->disableIdFilter();
+
+            // Add a column filter
+            $filter->contains('customer_name', __('Customer'));
+            $filter->contains('email', __('Email'));
+            $filter->contains('company.name', __('Owning Company'));
+        });
 
         $grid->column('id', __('Id'));
         $grid->column('customer_name', __('Customer name'));

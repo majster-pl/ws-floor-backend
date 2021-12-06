@@ -28,6 +28,18 @@ class CustomerAsset extends AdminController
     protected function grid()
     {
         $grid = new Grid(new Asset());
+        $grid->filter(function ($filter) {
+
+            // Remove the default id filter
+            $filter->disableIdFilter();
+
+            // Add a column filter
+            $filter->contains('reg', __('Reg'));
+            $filter->contains('make', __('Make'));
+            $filter->contains('model', __('Model'));
+            $filter->contains('customer.customer_name', __('Customer'));
+            $filter->contains('company.name', __('Owning Company'));
+        });
 
         $grid->column('id', __('Id'));
         $grid->column('reg', __('Reg'));
