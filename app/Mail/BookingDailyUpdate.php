@@ -7,9 +7,13 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class BookingDailyUpdate extends Mailable
+class BookingDailyUpdate extends Mailable 
 {
     use Queueable, SerializesModels;
+
+    public $data;
+    public $updated;
+    
     /**
      * Create a new message instance.
      *
