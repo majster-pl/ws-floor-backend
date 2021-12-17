@@ -54,15 +54,36 @@ class AssetController extends Controller
     public function update(Request $request, $uuid)
     {
         $asset = Asset::where("uuid", $uuid)->first();
-        $asset->update($request->all());
-        return new AssetResource($asset);
+        if ($asset) {
+            $asset->update($request->all());
+            return new AssetResource($asset);
+        } else {
+            $response = ['message' => 'Asset Not Found!'];
+            return response()->json(
+                $response,
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
     }
 
     public function destroy($id)
     {
-        $asset = Asset::find($id)->delete();
-        Event::where("asset_id", $id)->delete();
-
-        return $asset;
+        $asset = Asset::find($id);
+        if ($asset) {
+            $asset->delete();
+            Event::where("asset_id", $id)->delete();
+            $response = ['message' => 'Asset removed'];
+            return response()->json(
+                $response,
+                Response::HTTP_OK
+            );
+        } else {
+            $response = ['message' => 'Asset Not Found!'];
+            return response()->json(
+                $response,
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 }
