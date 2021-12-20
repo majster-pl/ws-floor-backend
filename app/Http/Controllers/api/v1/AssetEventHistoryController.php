@@ -14,7 +14,12 @@ class AssetEventHistoryController extends Controller
     public function show($uuid)
     {
         $asset_id = Asset::where("uuid", $uuid)->first()->id;
-        $events = Event::where([["asset_id", $asset_id], ["status", "completed"], ["owner_id", Auth::user()->owner_id]])->get();
+        $events = Event::where([
+            ["asset_id", $asset_id],
+            ["status", "completed"],
+            ["owner_id", Auth::user()->owner_id]
+        ])->get();
+
         return new BookingCollection($events);
     }
 }
