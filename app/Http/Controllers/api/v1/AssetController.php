@@ -30,9 +30,18 @@ class AssetController extends Controller
         $data['uuid'] = Str::uuid()->toString();
         $data['owner_id'] = Auth::user()->owner_id;
         $data['created_by'] = Auth::id();
-        $new = Asset::create($data);
 
-        return $new;
+        $new_asset = Asset::create($data);
+
+        if (isset($new_asset->id)) {
+            return $new_asset;
+        } else {
+            $response = ['message' => 'Asset Not added!'];
+            return response()->json(
+                $response,
+                Response::HTTP_METHOD_NOT_ALLOWED
+            );
+        }
     }
 
 
@@ -71,13 +80,22 @@ class AssetController extends Controller
     {
         $asset = Asset::find($id);
         if ($asset) {
-            $asset->delete();
-            Event::where("asset_id", $id)->delete();
-            $response = ['message' => 'Asset removed'];
-            return response()->json(
-                $response,
-                Response::HTTP_OK
-            );
+            if ($asset->owner_id === Auth::user()->owner_id) {
+                $asset->delete();
+                Event::where("asset_id", $id)->delete();
+                $response = ['message' => 'Asset removed'];
+                return response()->json(
+                    $response,
+                    Response::HTTP_OK
+                );
+            } else {
+                $response = ['message' => 'You are not authorised to remove this asset!'];
+                return response()->json(
+                    $response,
+                    Response::HTTP_FORBIDDEN
+                );
+
+            }
         } else {
             $response = ['message' => 'Asset Not Found!'];
             return response()->json(
