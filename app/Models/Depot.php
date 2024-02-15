@@ -11,10 +11,12 @@ class Depot extends Model
 
     protected $fillable = [
         'name',
+        'email',
+        'owner_id',
     ];
 
-    public function company_name()
+    public function company()
     {
-        return "Test";
+        return $this->belongsTo(Company::class, 'owner_id', 'id');
     }
 }

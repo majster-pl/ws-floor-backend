@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Asset;
-use App\Models\Event;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +15,6 @@ use App\Http\Controllers\api\v1\CalendarController;
 use App\Http\Controllers\api\v1\CustomerController;
 use App\Http\Controllers\api\v1\WorkshopController;
 use App\Http\Controllers\api\v1\EventUuidController;
-use App\Http\Controllers\api\v1\AssetHistoryController;
 use App\Http\Controllers\api\v1\CustomerAssetsController;
 use App\Http\Controllers\api\v1\AssetEventActiveController;
 use App\Http\Controllers\api\v1\BreakdownCounterController;
@@ -40,13 +37,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
-    // Route::get('/events', function () {
-    //     // return response()->json([Event::all()
-    //     // ], Response::HTTP_OK);
-    //     return Event::all();
-    // });
 
-    // Route::get('/events2', [EventController::class, 'index']);
     Route::apiResource('assets', AssetController::class);
     Route::apiResource('customers', CustomerController::class);
     Route::apiResource('events', EventController::class);
@@ -64,27 +55,24 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('user', UserController::class);
 
 
-    // Route::get('/assets', function () {
-    //     // return response()->json([Event::all()
-    //     // ], Response::HTTP_OK);
-    //     return Asset::all();
-    // });
-    // Route::get('/assets', function () {
-    //     // return response()->json([Event::all()
-    //     // ], Response::HTTP_OK);
-    //     return Asset::all();
-    // });
-
     Route::get('/logged-in', function () {
-        // return Auth::user();
         $user = Auth::user();
-        $user["logged-in"] = true;
-        $company = Company::where('id', $user->owner_id)->get();
-        $user["company"] = $company[0]->name;
-        return response()->json(
-            $user,
-            Response::HTTP_OK
-        );
+        if ($user) {
+            $user["logged-in"] = true;
+            $company = Company::where('id', $user->owner_id)->get();
+            $user["company"] = $company[0]->name;
+            return response()->json(
+                $user,
+                Response::HTTP_OK
+            );
+        } else {
+            $response = ['message' => 'Not logged in!'];
+            return response()->json(
+                $response,
+                Response::HTTP_UNAUTHORIZED
+            );
+
+        }
     });
 
     Route::fallback(function () {

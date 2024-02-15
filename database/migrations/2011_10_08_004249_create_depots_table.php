@@ -15,13 +15,13 @@ class CreateDepotsTable extends Migration
     {
         Schema::create('depots', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->unsignedBigInteger('owner_id')->nullable();
-            $table->string('owner_name')->nullable();
+            $table->string('name');
+            $table->unsignedBigInteger('owner_id');
             $table->timestamps();
 
             $table->foreign('owner_id')->references('id')->on('companies');
-            $table->foreign('owner_name')->references('name')->on('companies');
+            // $table->unique(['name', 'id']);
+            $table->unique(['name', 'owner_id']);
         });
     }
 

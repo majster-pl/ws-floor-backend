@@ -12,21 +12,33 @@ ws-floor-backend is a API service based on Laravel. It is build to serve backend
 ### Clone repo:
 `git clone https://github.com/majster-pl/ws-floor-backend.git`
 
+### Install dependiencies:
+`composer install --ignore-platform-reqs`
+
 ### Create .env file:
 `cp .env.example .env`
 
 ### Generate APP_KEY
 Generate application key using command below and enter generated key to .env file.
 
-`php artisan key:generate` 
+`php artisan key:generate`
+
+### Setup folder permissions:
+`chmod -R 755 storage`
+`chmod -R 755 vendor`
+
+### Setup public folder
+loging to you server and run:
+`php artisan storage:link`
+above command will create link to storage/app/public folder
 
 ### Setup .env file
-
 Change below in .env file:
 
 	APP_KEY='read above how to generate app key'
 	APP_ENV=local 'change to production if necessary'
 	WEBAPP_URL="http://localhost:3000" - set to your webapp url
+	ADMIN_HTTPS=true - if not set correctly you might not be able to login to admin panel
 	DB_DATABASE='database name'
 	DB_USERNAME='database user name'
 	DB_PASSWORD='passowrd to database'
@@ -54,10 +66,10 @@ You can change session lifetime, timezone by changing below in .env file
     SESSION_LIFETIME=30
     TIMEZONE=(change if different then Europe/London)
 
-#### Migrate
-`php artisan migrate`
-*or with dammy data*
-`php artisan migrate --seed`
+### API installation:
+To finish installation run build in command and follow instrucions on screen.
+This command will create migarions and create fake data if you choose to.
+`php artisan api-install` 
 
 
 

@@ -11,6 +11,9 @@ class BookingBreakdownConfirmation extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $data;
+    public $updated;
+
     /**
      * Create a new message instance.
      *
@@ -29,7 +32,7 @@ class BookingBreakdownConfirmation extends Mailable
     public function build()
     {
         return $this->markdown('emails.bookingBreakdownConfirmation')
-            ->subject('New booking Confirmation [Breakdown] - ' . $this->data['reg'])
+            ->subject('New Breakdown Confirmation - ' . $this->data['reg'])
             ->with('data', $this->data);
     }
 }

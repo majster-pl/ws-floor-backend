@@ -26,6 +26,7 @@ class CreateUsersTable extends Migration
 
             $table->foreign('owner_id')->references('id')->on('companies');
             $table->foreign('default_branch')->references('id')->on('depots');
+            $table->softDeletes();
         });
     }
 

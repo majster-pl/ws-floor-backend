@@ -18,7 +18,7 @@ class AssetEventActiveController extends Controller
             [
                 ["asset_id", $asset_id], 
                 ["status", "!=", "completed"], 
-                ["owner_id", Auth::user()->id]
+                ["owner_id", Auth::user()->owner_id]
             ]
             )->withTrashed()->get();
         return new BookingCollection($events);

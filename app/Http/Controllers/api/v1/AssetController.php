@@ -15,35 +15,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AssetController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $assets = Asset::where("owner_id", Auth::user()->owner_id)->get()
             ->sortBy('reg');
         return new AssetCollection($assets);
-        // return $asset;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $data = $request->all();
@@ -51,17 +30,21 @@ class AssetController extends Controller
         $data['uuid'] = Str::uuid()->toString();
         $data['owner_id'] = Auth::user()->owner_id;
         $data['created_by'] = Auth::id();
-        $new = Asset::create($data);
 
-        return $new;
+        $new_asset = Asset::create($data);
+
+        if (isset($new_asset->id)) {
+            return $new_asset;
+        } else {
+            $response = ['message' => 'Asset Not added!'];
+            return response()->json(
+                $response,
+                Response::HTTP_METHOD_NOT_ALLOWED
+            );
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         $asset = Asset::where([['uuid', $id], ['owner_id', Auth::user()
@@ -77,42 +60,48 @@ class AssetController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $uuid)
     {
         $asset = Asset::where("uuid", $uuid)->first();
-        $asset->update($request->all());
-        return new AssetResource($asset);
+        if ($asset) {
+            $asset->update($request->all());
+            return new AssetResource($asset);
+        } else {
+            $response = ['message' => 'Asset Not Found!'];
+            return response()->json(
+                $response,
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
-        $asset = Asset::find($id)->delete();
-        Event::where("asset_id", $id)->delete();
+        $asset = Asset::find($id);
+        if ($asset) {
+            if ($asset->owner_id === Auth::user()->owner_id) {
+                $asset->delete();
+                Event::where("asset_id", $id)->delete();
+                $response = ['message' => 'Asset removed'];
+                return response()->json(
+                    $response,
+                    Response::HTTP_OK
+                );
+            } else {
+                $response = ['message' => 'You are not authorised to remove this asset!'];
+                return response()->json(
+                    $response,
+                    Response::HTTP_FORBIDDEN
+                );
 
-        return $asset;
+            }
+        } else {
+            $response = ['message' => 'Asset Not Found!'];
+            return response()->json(
+                $response,
+                Response::HTTP_NOT_FOUND
+            );
+        }
     }
 }

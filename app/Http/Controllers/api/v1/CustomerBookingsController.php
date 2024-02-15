@@ -15,7 +15,7 @@ class CustomerBookingsController extends Controller
     public function show($uuid)
     {
         $customer_id = Customer::where("uuid", $uuid)->first()->id;
-        $events = Event::where([["customer_id", $customer_id], ["owner_id", Auth::user()->id]])->withTrashed()->get();
+        $events = Event::where([["customer_id", $customer_id], ["owner_id", Auth::user()->owner_id]])->withTrashed()->get();
         return new BookingCollection($events);
     }
 }

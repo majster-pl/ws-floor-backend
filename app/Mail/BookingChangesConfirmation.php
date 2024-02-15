@@ -12,6 +12,7 @@ class BookingChangesConfirmation extends Mailable
     use Queueable, SerializesModels;
 
     public $data;
+    public $updated;
 
     /**
      * Create a new message instance.

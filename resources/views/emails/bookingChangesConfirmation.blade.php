@@ -1,15 +1,15 @@
 @component('mail::message')
 @if (isset($updated["status"]))
 @if (str_contains(Str::lower($updated["status"]), "waiting") )
-<center><img src="{{URL('storage/email/stop'. rand(1,2).'.png')}}" style="width:35%" alt="Status Logo"></center><br>
+<center><img src="{{URL('storage/email/stop'. rand(1,2).'.png')}}" height="100" alt="Status Logo"></center><br>
 @endif
 @else
-<center><img src="{{URL('storage/email/thumb_up1.png')}}" style="width:35%" alt="Status Logo"></center><br>
+<center><img src="{{URL('storage/email/thumb_up1.png')}}" height="100" alt="Status Logo"></center><br>
 @endif
 
 # Dear {{ $data['customer'] }},
 
-This is an confirmation email about changes to you booking.
+This is an confirmation email about changes to you booking for <b>{{$data['reg']}}</b> with <b>{{$data['company_name']. " - ". $data['branch'] }}</b>.
 
 Reg: <b>{{ $data['reg'] }} </b><br>
 
@@ -45,6 +45,7 @@ Job Notes:
 
 <br>
 <b class="text-info">Booking details:</b><br>
+Company: <b>{{ $data['company_name'] }}</b><br>
 Location: <b>{{ $data['branch'] }}</b><br>
 Planned Date: <b>{{ date_format(date_create($data['booked_date_time']), "d/m/Y H:i") }}</b><br>
 Description: <b>{{ $data['description'] }}</b><br>
@@ -54,9 +55,11 @@ Others: <b>{{ $data['others'] }}</b><br><br>
 
 <br><br>
 <small>Changes mady by: <b>{{$data['user']}}</b></small><br>
-Please <a href="mailto:booking@test.org">contact us</a> if you need to make any changes to this booking.<br>
 
-# {{ config('app.name') }} Team,
+Please <a href="mailto:{{$data['depot_email']}}?subject=Booking changes request for {{$data['reg']}}&body=Hello {{$data['company_name']}},%0D%0A%0D%0AI would like to amend .....  for {{$data['reg']}}.">contact us</a> if you need to make any changes to this booking.<br><br>
+
+Best Regards,
+# {{$data['company_name']. " - ". $data['branch'] }} Team.
 <small>
     <a style="display: inline-block;" class="attributin" href="https://www.vecteezy.com/free-vector/cartoon">Cartoon Vectors by Vecteezy</a>
 </small>

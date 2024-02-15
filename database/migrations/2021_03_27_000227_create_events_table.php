@@ -18,8 +18,8 @@ class CreateEventsTable extends Migration
             $table->uuid('uuid')->unique();
             $table->unsignedBigInteger('asset_id');
             $table->float('order')->nullable();
-            $table->float('odometer_in')->nullable();
-            $table->float('odometer_out')->nullable();
+            $table->bigInteger('odometer_in')->nullable();
+            $table->bigInteger('odometer_out')->nullable();
             $table->unsignedBigInteger('customer_id');
             $table->boolean('waiting')->nullable()->default(false);
             $table->mediumText('others')->nullable();
@@ -31,7 +31,7 @@ class CreateEventsTable extends Migration
             $table->dateTime('booked_date_time');
             $table->boolean('breakdown')->default(false);
             $table->float('allowed_time', 8, 2);
-            $table->integer('key_location')->nullable();
+            $table->string('key_location', 20)->nullable();
             $table->float('spent_time', 8, 2)->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('owner_id')->nullable();

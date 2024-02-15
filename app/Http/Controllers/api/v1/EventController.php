@@ -77,7 +77,6 @@ class EventController extends Controller
 
         $notification = $request->notification;
 
-        $event = $event->save();
 
         $data = [
             'user' => Auth::user()->name,
@@ -91,6 +90,7 @@ class EventController extends Controller
             'branch' => Depot::where("id", $request->depot)->first()->name,
             'odometer_in' => $request->odometer_in,
             'special_instructions' => $request->special_instructions,
+            'depot_email' => Depot::find($event->owning_branch)->email,
         ];
 
         if ($notification) {
@@ -104,8 +104,7 @@ class EventController extends Controller
             Mail::to($email)->bcc("szymon@waliczek.org")->send($new_email);
         }
 
-
-
+        $event = $event->save();
         broadcast(new NewEvent())->toOthers();
 
         return $event;
@@ -161,6 +160,7 @@ class EventController extends Controller
             'special_instructions' => $event->special_instructions,
             'arrived_date' => date_format(date_create($request->arrived_date), "d/m/Y H:i"),
             'free_text' => $event->free_text,
+            'depot_email' => Depot::find($event->owning_branch)->email,
         ];
 
         // check if status updated, if not user to received different email

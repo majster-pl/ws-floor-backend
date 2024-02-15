@@ -23,7 +23,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::where("owner_id", Auth::user()->owner_id)->get()
+        $customers = Customer::where("owner_id", Auth::user()->owner_id)->withTrashed()->get()
             ->sortBy('customer_name', SORT_NATURAL | SORT_FLAG_CASE);
         return new CustomerCollection($customers);
     }
